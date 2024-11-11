@@ -1,0 +1,76 @@
+/* login.css */
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap");
+
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  background-color: #333;
+  color: #fff;
+  padding: 1.25rem 0;
+  text-align: center;
+  /* border: red 4px solid; */
+}
+
+#header-content {
+  display: flex;
+  justify-content: space-between;
+  width: 25vw;
+  /* border: blue 4px solid; */
+}
+
+main {
+  max-width: 70vw;
+  margin: 0 auto;
+  padding: 1.25rem;
+}
+
+.login-form {
+  background-color: #fff;
+  padding: 2.5rem;
+  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
+  border-radius: 0.3125rem;
+  max-width: 40vw;
+  margin: 3.125rem auto;
+  /* border: orange solid; */
+}
+
+.login-form h1 {
+  text-align: center;
+  margin-bottom: 1.25rem;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.form-group {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.625rem;
+}
+
+.form-group input {
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 0.3125rem;
+  font-size: 1em;
+  padding: 1rem;
+  margin-bottom: 0.625rem;
+}
+
+.login-form {
+  padding: 2rem;
+  margin: 2rem auto;
+}

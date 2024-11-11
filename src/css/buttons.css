@@ -1,0 +1,32 @@
+.btn-1 {
+  background-color: #333;
+  color: #fff;
+  border: none;
+}
+
+.btn-2 {
+  background-color: white;
+  color: #333;
+  border: rgba(0, 0, 0, 0.1) 0.025rem solid;
+}
+
+.btn-1,
+.btn-2 {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0.3125rem;
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+}
+
+.btn-1:hover {
+  background-color: #9b9595;
+}
+
+.btn-2:hover {
+  background-color: rgba(97, 95, 89, 0.1);
+}
