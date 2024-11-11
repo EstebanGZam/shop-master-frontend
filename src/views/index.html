@@ -4,41 +4,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inicio</title>
+  <title>Shop Master || Tienda de Ropa</title>
   <link rel="stylesheet" href="./../css/index.css" />
+  <link rel="stylesheet" href="./../css/submenu.css" />
+  <link rel="icon" href="./../assets/game-icons--hummingbird.svg" type="image/svg+xml">
 </head>
 
 <body>
-  <header class="header">
-    <div class="menu container">
-      <a class="logo" href="/">tcrew</a>
-      <nav class="nav-bar">
-        <ul>
-          <li><a>VIRTUAL SHOP</a></li>
-        </ul>
-      </nav>
-      <div class="submenu account">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person-fill"
-          viewBox="0 0 16 16" alt="Mi cuenta" class="account-icon">
-          <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
-        </svg>
-        <div class="submenu-dropdown">
-          <h3>Mi cuenta</h3>
-          <a href="/login" id="login-btn" class="btn-1" style="display: none">Iniciar sesión</a>
-          <a href="/register" id="register-btn" class="btn-2" style="display: none">Registrarme</a>
-          <a href="/history" id="history-btn" class="btn-2" style="display: none">Ver pedidos</a>
-          <a href="/" id="logout-btn" class="btn-1" style="display: none">Cerrar sesión</a>
-        </div>
+  <header>
+    <div id="menu">
+      <div class="inner-menu-container">
+        <a id="logo" href="#">
+          <img src="./../assets/game-icons--hummingbird.svg" alt="Logo Image" />
+          Shop Master
+        </a>
       </div>
-      <div>
-        <ul>
-          <li class="submenu">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"
-              alt="car-shop" class="car-icon">
-              <path
-                d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2">
-              </path>
-            </svg>
+
+      <div class="inner-menu-container">
+        <div class="icon-container">
+          <div class="submenu">
+            <img src="./../assets/material-symbols-light--shopping-cart.svg" alt="Carrito de compras">
             <div class="submenu-dropdown" id="submenu-dropdown-car">
               <h3>Carrito</h3>
               <table id="shop-list">
@@ -53,31 +38,65 @@
                 <tbody></tbody>
               </table>
               <a href="/purchase" id="purchase-btn" class="btn-1">Ir a la compra</a>
-              <a href="#" id="flush-car-shop" class="btn-1">Vaciar Carrito</a>
+              <a href="#" id="flush-car-shop" class="btn-2">Vaciar Carrito</a>
             </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="header-content container">
-      <div class="header-img">
-        <img src="./../assets/model-home-page.png" alt="" />
-      </div>
-      <div class="header-txt">
-        <h1>Ofertas especiales</h1>
-        <p>Estrena las mejores prendas</p>
+          </div>
+        </div>
+        <div class="icon-container">
+          <div class="submenu">
+            <img src="./../assets/mdi--account-circle.svg" alt="Mi cuenta">
+            <div class="submenu-dropdown">
+              <h3>Mi cuenta</h3>
+              <a href="/login" id="login-btn" class="btn-1" style="display: none">Iniciar sesión</a>
+              <a href="/register" id="register-btn" class="btn-2" style="display: none">Registrarme</a>
+              <a href="/history" id="history-btn" class="btn-2" style="display: none">Ver pedidos</a>
+              <a href="/" id="logout-btn" class="btn-1" style="display: none">Cerrar sesión</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </header>
 
-  <main class="products container" id="list-1">
-    <h2>Productos</h2>
-    <div class="product-content"></div>
-    <a href="/add_product" id="add-product-btn" class="btn-1" style="display: none">Añadir Producto</a>
+  <main class="container">
+    <div id="main-img">
+      <img src="./../assets/model-home-page.png" alt="" />
+    </div>
+    <div class="main-txt">
+      <h1>¡Productos Imperdibles!</h1>
+      <p>Descubre y luce las prendas más increíbles de la temporada</p>
+    </div>
   </main>
+  <!-- Footer -->
+  <footer>
+    <div id="footer-container">
+      <div class="footer-contact">
+        <h4>CONTACTO</h4>
+        <p><strong>WhatsApp:</strong> 3003103100</p>
+        <p><strong>Correo electrónico:</strong> shopmaster@mail.com</p>
+      </div>
+
+      <div class="footer-social">
+        <h4>SÍGUENOS</h4>
+        <div id="social">
+          <a href="#" class="social-icon"><img src="./../assets/ic--baseline-whatsapp.svg" alt="WhatsApp"></a>
+          <a href="#" class="social-icon"><img src="./../assets/ic--baseline-facebook.svg" alt="Facebook"></a>
+          <a href="#" class="social-icon"><img src="./../assets/mdi--instagram.svg" alt="Instagram"></a>
+          <a href="#" class="social-icon"><img src="./../assets/mdi--twitter.svg" alt="Twitter"></a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <a href="#" class="footer-link">Términos y condiciones</a> |
+        <a href="#" class="footer-link">Política de Privacidad</a> |
+        <a href="#" class="footer-link">Superintendencia</a>
+        <p>&copy; 2024 Shop Master S.A.S.</p>
+      </div>
+    </div>
+  </footer>
+
 
   <script src="./../js/index.js"></script>
+  <!-- <script src="./../js/submenu.js"></script> -->
 </body>
 
 </html>
