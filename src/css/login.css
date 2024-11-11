@@ -5,23 +5,22 @@ body {
   font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0;
+  background-color: #f1faee; /* Verde claro */
 }
 
 header {
   display: flex;
   justify-content: center;
-  background-color: #333;
-  color: #fff;
+  background-color: #1d3557; /* Azul oscuro */
+  color: #f1faee; /* Verde claro */
   padding: 1.25rem 0;
   text-align: center;
-  /* border: red 4px solid; */
 }
 
 #header-content {
   display: flex;
   justify-content: space-between;
   width: 25vw;
-  /* border: blue 4px solid; */
 }
 
 main {
@@ -31,20 +30,19 @@ main {
 }
 
 .login-form {
-  background-color: #fff;
+  background-color: #ffffff; /* Blanco */
   padding: 2.5rem;
-  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0.625rem rgba(69, 123, 157, 0.1); /* Azul claro con transparencia */
   border-radius: 0.3125rem;
   max-width: 40vw;
   margin: 3.125rem auto;
-  /* border: orange solid; */
 }
 
 .login-form h1 {
   text-align: center;
   margin-bottom: 1.25rem;
   font-size: 1.5rem;
-  color: #333;
+  color: #1d3557; /* Azul oscuro */
 }
 
 .form-group {
@@ -56,18 +54,19 @@ main {
   display: flex;
   align-items: center;
   font-weight: bold;
-  color: #333;
+  color: #457b9d; /* Azul claro */
   margin-bottom: 0.625rem;
 }
 
 .form-group input {
   box-sizing: border-box;
   width: 100%;
-  border: 1px solid #ccc;
+  border: 1px solid #a8dadc; /* Verde suave */
   border-radius: 0.3125rem;
   font-size: 1em;
   padding: 1rem;
   margin-bottom: 0.625rem;
+  background-color: #f1faee; /* Verde claro */
 }
 
 .login-form {

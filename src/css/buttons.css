@@ -1,13 +1,13 @@
 .btn-1 {
-  background-color: #333;
+  background-color: #1d3557; /* Azul oscuro */
   color: #fff;
   border: none;
 }
 
 .btn-2 {
-  background-color: white;
-  color: #333;
-  border: rgba(0, 0, 0, 0.1) 0.025rem solid;
+  background-color: #fff;
+  color: #1d3557; /* Azul oscuro */
+  border: rgba(29, 53, 87, 0.2) 0.025rem solid; /* Azul oscuro con transparencia */
 }
 
 .btn-1,
@@ -24,9 +24,9 @@
 }
 
 .btn-1:hover {
-  background-color: #9b9595;
+  background-color: #457b9d; /* Azul claro */
 }
 
 .btn-2:hover {
-  background-color: rgba(97, 95, 89, 0.1);
+  background-color: rgba(173, 216, 230, 0.3); /* Azul pastel con transparencia */
 }
