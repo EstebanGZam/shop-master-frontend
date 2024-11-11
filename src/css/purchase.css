@@ -1,0 +1,306 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap");
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+  position: relative;
+}
+
+.header .home-btn {
+  position: absolute;
+  left: 100px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.header .home-btn a {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #fff;
+  color: #333;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: background-color 0.3s;
+}
+
+.header .home-btn a:hover {
+  background-color: #ddd;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Carrito de compras */
+.cart {
+  margin-bottom: 40px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.cart h2 {
+  margin-bottom: 20px;
+  font-family: "Oswald", sans-serif;
+  font-size: 25px;
+  text-transform: uppercase;
+  color: #333;
+}
+
+#shop-list-order {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #212529;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#shop-list-order th,
+#shop-list-order td {
+  padding: 0.75rem;
+  vertical-align: middle;
+  border-top: 1px solid #dee2e6;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+#shop-list-order thead th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dee2e6;
+}
+
+#shop-list-order th {
+  background-color: #f8f8f8;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #333;
+}
+
+#shop-list-order tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+#shop-list-order tbody+tbody {
+  border-top: 2px solid #dee2e6;
+}
+
+#shop-list-order tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+#shop-list-order img {
+  width: 120px;
+  height: 170px;
+  object-fit: cover;
+  margin: 0 auto;
+  display: block;
+}
+
+#button-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-1 {
+  display: inline-block;
+  padding: 11px 25px;
+  background-color: #333;
+  color: #ffffff;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: background-color 0.3s;
+}
+
+.btn-1:hover {
+  background-color: #555;
+}
+
+#flush-car-shop,
+#purchase-btn {
+  margin-top: 20px;
+  margin-right: 10px;
+}
+
+.delete {
+  color: #333;
+  font-size: 28px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.delete:hover,
+.delete:focus {
+  color: black;
+  cursor: pointer;
+}
+
+/* Estilos para la ventana emergente de la factura */
+.popup {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup-content {
+  background-color: #fff;
+  margin: 2.5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.popup-content h2 {
+  margin-top: 0;
+}
+
+.popup-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.popup-content th,
+.popup-content td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.popup-content th {
+  background-color: #f2f2f2;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Estilos generales para el popup centrado */
+#payment-form-popup {
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Fondo semitransparente */
+  z-index: 1000;
+  overflow-y: auto;
+  /* Agrega scroll si el contenido es demasiado alto */
+  padding: 20px;
+}
+
+/* Contenedor del contenido del popup */
+#payment-form-popup .popup-content {
+  padding: 20px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  /* Limita el ancho máximo en pantallas grandes */
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+/* Estilos de cabecera y botón de cierre */
+#payment-form-popup h2 {
+  font-size: 24px;
+  color: #333;
+  font-family: "Oswald", sans-serif;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.close-payment {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #aaa;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-payment:hover {
+  color: #333;
+}
+
+/* Ajustes de estilos para los labels e inputs */
+#payment-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+#payment-form input,
+#payment-form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* Botón de confirmación de pago */
+#payment-form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#payment-form button:hover {
+  background-color: #555;
+}
