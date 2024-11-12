@@ -249,3 +249,9 @@ modules.xml
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij+all,visualstudiocode,intellij,intellij+iml
+
+
+# Node.js files
+node_modules/
+package-lock.json
+package.json
