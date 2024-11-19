@@ -29,10 +29,8 @@ function checkLoginStatus() {
     // Si el usuario ha iniciado sesión, mostrar botón de ver pedidos y cerrar sesión
     historyBtn.style.display = "block";
     logoutBtn.style.display = "block";
-    productSection.style.display = "block";
-    // Cargar los productos
-    loadProducts(userRole);
-
+    // Cargar los productos. (Asegúrese de que la función loadProducts funcione correctamente antes de descomentar la siguiente línea)
+    // loadProducts(userRole);
     if (userRole === "admin") {
       addProductBtn.style.display = "block";
       carShop.style.display = "none";
@@ -46,7 +44,6 @@ function checkLoginStatus() {
     // Si el usuario no ha iniciado sesión, mostrar botones de inicio de sesión y registro
     loginBtn.style.display = "block";
     registerBtn.style.display = "block";
-    productSection.style.display = "none";
     carShop.style.display = "none";
   }
 }
@@ -77,7 +74,7 @@ function loadProducts(userRole) {
           <p class="price">$${product.price}</p>
         `;
 
-        // Si el usuario no es un administrador, no se le permite agreagr al carrito
+        // Si el usuario no es un administrador, no se le permite agregar al carrito
         if (userRole !== "admin") {
           productTxt.innerHTML += `
             <a href="#" class="add-car btn-2" data-id="${product.name}">Agregar al carrito</a>
@@ -97,20 +94,28 @@ function loadEventListeners() {
   document.querySelector(".product-content").addEventListener("click", buyElement);
   flushCarBtn.addEventListener("click", flushCar);
   list.addEventListener("click", deleteFromCart);
-  logoutBtn.addEventListener("click", logout);
+  // logoutBtn.addEventListener("click", logout);
+  logoutBtn.addEventListener("click", (e) => {
+    e.preventDefault(); // Previene comportamientos no deseados
+    logout();
+  });
   document.getElementById("purchase-btn").addEventListener("click", () => {
     sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
   });
 }
 
 function logout() {
+  // Limpia las cookies y el almacenamiento
   // Eliminar indicador de inicio de sesión y rol del usuario
-  sessionStorage.removeItem("LoggedIn");
-  sessionStorage.removeItem("UserRole");
-  sessionStorage.removeItem("User");
+  document.cookie = "token=; path=/; max-age=0; Secure";
+  sessionStorage.clear(); // Elimina todos los datos de la sesión
+  localStorage.clear();   //  Elimina todos los datos del almacenamiento local
+  // Oculta botones y secciones específicas
   historyBtn.style.display = "none";
   logoutBtn.style.display = "none";
   addProductBtn.style.display = "none";
+  // Redirige al usuario a la página de inicio o login
+  window.location.href = "./../views/index.html"; // Cambia esto a la ruta que desees
 }
 
 function buyElement(e) {
