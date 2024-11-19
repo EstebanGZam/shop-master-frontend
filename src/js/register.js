@@ -24,11 +24,14 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (response.ok) {
-        window.location.href = "/";
+        const data = await response.json();
+        const token = data.token;
+        document.cookie = `token=${token}; path=/; max-age=14400; Secure`;
         // Almacenar indicadores en sessionStorage
         sessionStorage.setItem("LoggedIn", "true");
         sessionStorage.setItem("UserRole", role === 1 ? "admin" : "client");
         sessionStorage.setItem("User", username);
+        window.location.href = "./../views/index.html";
       } else {
         alert("Hubo un error al registrar el usuario");
         // Limpiar campos del formulario en caso de error
