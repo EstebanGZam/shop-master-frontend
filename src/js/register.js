@@ -4,33 +4,35 @@ document.addEventListener("DOMContentLoaded", () => {
   registerForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
+    // Recolectar valores de los campos
     const username = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    const role = document.getElementById("role").value;
+    const address = document.getElementById("address").value;
+    const role = parseInt(document.getElementById("role").value, 10); // Convertir a número
+
+    // Crear objeto para enviar
+    const requestBody = { username, email, password, address, role };
 
     try {
-      const response = await fetch("/register", {
+      const response = await fetch("http://localhost:8080/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, password, role }),
+        body: JSON.stringify(requestBody),
       });
 
       if (response.ok) {
         window.location.href = "/";
-        // Almacenar indicador de inicio de sesión
+        // Almacenar indicadores en sessionStorage
         sessionStorage.setItem("LoggedIn", "true");
-        // Almacenar indicador de tipo de usuario logueado
-        sessionStorage.setItem("UserRole", role === "admin" ? "admin" : "client");
-        // Almacenar al usuario que está logueado
+        sessionStorage.setItem("UserRole", role === 1 ? "admin" : "client");
         sessionStorage.setItem("User", username);
       } else {
         alert("Hubo un error al registrar el usuario");
         // Limpiar campos del formulario en caso de error
-        document.getElementById("username").value = "";
-        document.getElementById("password").value = "";
-        document.getElementById("role").value = "";
+        registerForm.reset();
       }
     } catch (error) {
       console.error("Error:", error);
