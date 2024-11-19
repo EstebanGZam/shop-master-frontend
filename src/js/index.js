@@ -17,10 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
   checkLoginStatus();
   // Cargar los listeners de eventos
   loadEventListeners();
-  // Cargar los productos
-  loadProducts();
-  // Mostrar los productos en el carrito
-  renderCart();
 });
 
 function checkLoginStatus() {
@@ -28,20 +24,34 @@ function checkLoginStatus() {
   const isLoggedIn = sessionStorage.getItem("LoggedIn");
   // Verificar el tipo de usuario logueado
   const userRole = sessionStorage.getItem("UserRole");
+
   if (isLoggedIn === "true") {
     // Si el usuario ha iniciado sesión, mostrar botón de ver pedidos y cerrar sesión
     historyBtn.style.display = "block";
     logoutBtn.style.display = "block";
-    // Mostrar el botón de "Añadir productos" si el usuario es un administrador
-    if (userRole === "admin") addProductBtn.style.display = "block";
+    productSection.style.display = "block";
+    // Cargar los productos
+    loadProducts(userRole);
+
+    if (userRole === "admin") {
+      addProductBtn.style.display = "block";
+      carShop.style.display = "none";
+    } else {
+      addProductBtn.style.display = "none";
+      carShop.style.display = "block";
+      renderCart();
+    }
+
   } else {
     // Si el usuario no ha iniciado sesión, mostrar botones de inicio de sesión y registro
     loginBtn.style.display = "block";
     registerBtn.style.display = "block";
+    productSection.style.display = "none";
+    carShop.style.display = "none";
   }
 }
 
-function loadProducts() {
+function loadProducts(userRole) {
   fetch("/products")
     .then((response) => response.json())
     .then((data) => {
@@ -51,15 +61,30 @@ function loadProducts() {
       products.forEach((product) => {
         const productDiv = document.createElement("div");
         productDiv.classList.add("product");
-        productDiv.innerHTML = `
-          <img src="../uploads/${product.image}" alt="${product.name}" />
-          <div class="product-txt">
-            <h3>${product.name}</h3>
-            <p>${product.description}</p>
-            <p class="price">$${product.price}</p>
-            <a href="#" class="add-car btn-2" data-id="${product.name}">Agregar al carrito</a>
-          </div>
+
+        // Crear imagen del producto
+        const productImg = document.createElement("img");
+        productImg.src = `../uploads/${product.image}`;
+        productImg.alt = product.name;
+        productDiv.appendChild(productImg);
+
+        // Crear texto del producto
+        const productTxt = document.createElement("div");
+        productTxt.classList.add("product-txt");
+        productTxt.innerHTML = `
+          <h3>${product.name}</h3>
+          <p>${product.description}</p>
+          <p class="price">$${product.price}</p>
         `;
+
+        // Si el usuario no es un administrador, no se le permite agreagr al carrito
+        if (userRole !== "admin") {
+          productTxt.innerHTML += `
+            <a href="#" class="add-car btn-2" data-id="${product.name}">Agregar al carrito</a>
+          `;
+        }
+        productDiv.appendChild(productTxt);
+
         productContent.appendChild(productDiv);
       });
     })
@@ -97,6 +122,7 @@ function buyElement(e) {
 }
 
 function readDataElement(element) {
+  carShop.style.display = "block";
   const infoElement = {
     image: element.querySelector("img").src,
     title: element.querySelector("h3").textContent,
