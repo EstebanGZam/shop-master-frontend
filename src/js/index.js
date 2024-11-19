@@ -29,17 +29,18 @@ function checkLoginStatus() {
     // Si el usuario ha iniciado sesión, mostrar botón de ver pedidos y cerrar sesión
     historyBtn.style.display = "block";
     logoutBtn.style.display = "block";
-    // Cargar los productos. (Asegúrese de que la función loadProducts funcione correctamente antes de descomentar la siguiente línea)
-    // loadProducts(userRole);
-    if (userRole === "admin") {
-      addProductBtn.style.display = "block";
-      carShop.style.display = "none";
-    } else {
-      addProductBtn.style.display = "none";
-      carShop.style.display = "block";
-      renderCart();
+    if (isLoggedIn === "true") {
+      // Cargar los productos. (Asegúrese de que la función loadProducts funcione correctamente antes de descomentar la siguiente línea)
+      loadProducts(userRole);
+      if (userRole === "admin") {
+        addProductBtn.style.display = "block";
+        carShop.style.display = "none";
+      } else {
+        addProductBtn.style.display = "none";
+        carShop.style.display = "block";
+        renderCart();
+      }
     }
-
   } else {
     // Si el usuario no ha iniciado sesión, mostrar botones de inicio de sesión y registro
     loginBtn.style.display = "block";
@@ -49,10 +50,15 @@ function checkLoginStatus() {
 }
 
 function loadProducts(userRole) {
-  fetch("/products")
+  fetch("http://127.0.0.1:8080/products", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+    },
+  })
     .then((response) => response.json())
-    .then((data) => {
-      const products = data.products;
+    .then((products) => {
       const productContent = document.querySelector(".product-content");
       productContent.innerHTML = "";
       products.forEach((product) => {
@@ -61,9 +67,14 @@ function loadProducts(userRole) {
 
         // Crear imagen del producto
         const productImg = document.createElement("img");
-        productImg.src = `../uploads/${product.image}`;
+        productImg.src = product.imageUrl;
         productImg.alt = product.name;
+        productImg.style.width = "50px";
+        productImg.style.height = "50px";
+        productImg.style.objectFit = "cover"; // Ajusta la imagen al contenedor sin deformarla
+        productImg.style.overflow = "hidden"; // Oculta cualquier contenido fuera del tamaño definido
         productDiv.appendChild(productImg);
+
 
         // Crear texto del producto
         const productTxt = document.createElement("div");
