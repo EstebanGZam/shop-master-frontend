@@ -41,9 +41,10 @@ function checkLoginStatus() {
       if (userRole === "admin") {
         addProductBtn.style.display = "block";
         carShop.style.display = "none";
+        historyBtn.style.display = "none";
       } else {
         addProductBtn.style.display = "none";
-        carShop.style.display = "block";
+        carShop.style.display = "flex";
         renderCart();
       }
     }
@@ -166,24 +167,28 @@ function buyElement(e) {
 }
 
 function readDataElement(element) {
-  carShop.style.display = "block";
   const infoElement = {
-    image: element.querySelector("img").src,
-    title: element.querySelector("h3").textContent,
-    price: parseFloat(element.querySelector(".price").textContent.replace("$", "")),
-    id: element.querySelector("a").getAttribute("data-id"),
-    quantity: 1,
+    image: element.querySelector(".image-container img").src, // URL de la imagen
+    title: element.querySelector(".product-txt h3").textContent, // Nombre del producto
+    price: parseFloat(
+      element.querySelector(".product-txt p:nth-of-type(2)")
+        .textContent.replace("Precio: $", "").trim()
+    ), // Precio del producto
+    id: element.querySelector(".add-car").getAttribute("data-id"), // ID del producto
+    quantity: 1, // Cantidad inicial
   };
 
+  // Verificar si el producto ya existe en el carrito
   const existingItem = cartItems.find((item) => item.id === infoElement.id);
   if (existingItem) {
-    existingItem.quantity += 1;
+    existingItem.quantity += 1; // Incrementar la cantidad si ya está en el carrito
   } else {
-    cartItems.push(infoElement);
+    cartItems.push(infoElement); // Agregar nuevo producto al carrito
   }
 
-  renderCart();
+  renderCart(); // Llamar a la función para renderizar el carrito
 }
+
 
 function renderCart() {
   list.innerHTML = "";
