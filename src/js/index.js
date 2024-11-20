@@ -36,7 +36,7 @@ function checkLoginStatus() {
     historyBtn.style.display = "block";
     logoutBtn.style.display = "block";
     if (isLoggedIn === "true") {
-      // Cargar los productos. (Asegúrese de que la función loadProducts funcione correctamente antes de descomentar la siguiente línea)
+      // Cargar los productos si el usuario está logueado
       loadProducts(userRole);
       if (userRole === "admin") {
         addProductBtn.style.display = "block";
@@ -85,7 +85,7 @@ function loadProducts(userRole) {
         productImg.src = product.imageUrl;
         productImg.alt = product.name;
         productImg.style.width = "100%";
-        productImg.style.height = "200px";
+        // productImg.style.height = "200px";
         productImg.style.objectFit = "cover"; // Ajusta la imagen proporcionalmente
         imageContainer.appendChild(productImg);
 
