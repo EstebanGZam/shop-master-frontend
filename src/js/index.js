@@ -8,6 +8,8 @@ const carShop = document.getElementById("car-shop");
 const element1 = document.getElementById("shop-list");
 const list = document.querySelector("#shop-list tbody");
 const flushCarBtn = document.getElementById("flush-car-shop");
+const landingPage = document.getElementById("landing-page");
+const listOfProducts = document.getElementById("list-of-products");
 
 // Variable global para almacenar los productos del carrito
 let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
@@ -26,6 +28,10 @@ function checkLoginStatus() {
   const userRole = sessionStorage.getItem("UserRole");
 
   if (isLoggedIn === "true") {
+    // Ocultar el main si el usuario está logueado
+    landingPage.style.display = "none";
+    // Mostrar la lista de productos si el usuario está logueado
+    listOfProducts.style.display = "block";
     // Si el usuario ha iniciado sesión, mostrar botón de ver pedidos y cerrar sesión
     historyBtn.style.display = "block";
     logoutBtn.style.display = "block";
@@ -42,6 +48,10 @@ function checkLoginStatus() {
       }
     }
   } else {
+    // Mostrar el main si el usuario no está logueado
+    landingPage.style.display = "flex";
+    // Ocultar la lista de productos si el usuario no está logueado
+    listOfProducts.style.display = "none";
     // Si el usuario no ha iniciado sesión, mostrar botones de inicio de sesión y registro
     loginBtn.style.display = "block";
     registerBtn.style.display = "block";
@@ -61,38 +71,55 @@ function loadProducts(userRole) {
     .then((products) => {
       const productContent = document.querySelector(".product-content");
       productContent.innerHTML = "";
+
       products.forEach((product) => {
         const productDiv = document.createElement("div");
         productDiv.classList.add("product");
+
+        // Crear contenedor de la imagen
+        const imageContainer = document.createElement("div");
+        imageContainer.classList.add("image-container");
 
         // Crear imagen del producto
         const productImg = document.createElement("img");
         productImg.src = product.imageUrl;
         productImg.alt = product.name;
-        productImg.style.width = "50px";
-        productImg.style.height = "50px";
-        productImg.style.objectFit = "cover"; // Ajusta la imagen al contenedor sin deformarla
-        productImg.style.overflow = "hidden"; // Oculta cualquier contenido fuera del tamaño definido
-        productDiv.appendChild(productImg);
+        productImg.style.width = "100%";
+        productImg.style.height = "200px";
+        productImg.style.objectFit = "cover"; // Ajusta la imagen proporcionalmente
+        imageContainer.appendChild(productImg);
 
+        // Agregar contenedor de la imagen al div del producto
+        productDiv.appendChild(imageContainer);
 
         // Crear texto del producto
         const productTxt = document.createElement("div");
         productTxt.classList.add("product-txt");
+
         productTxt.innerHTML = `
           <h3>${product.name}</h3>
-          <p>${product.description}</p>
-          <p class="price">$${product.price}</p>
+          <p><strong>Descripción:</strong> ${product.description}</p>
+          <p><strong>Precio:</strong> $${product.price.toFixed(2)}</p>
+          <p><strong>Stock:</strong> ${product.stockQuantity}</p>
+          <p><strong>Talla:</strong> ${product.sizeName || "N/A"}</p>
+          <p><strong>Categoría:</strong> ${product.categoryName || "N/A"}</p>
+          <p><strong>Fecha de creación:</strong> ${new Date(product.creationDate).toLocaleDateString("es-ES")}</p>
         `;
 
-        // Si el usuario no es un administrador, no se le permite agregar al carrito
+        // Si el usuario no es un administrador, agregar botón al carrito
         if (userRole !== "admin") {
-          productTxt.innerHTML += `
-            <a href="#" class="add-car btn-2" data-id="${product.name}">Agregar al carrito</a>
-          `;
+          const addCarButton = document.createElement("a");
+          addCarButton.href = "#";
+          addCarButton.classList.add("add-car", "btn-2");
+          addCarButton.textContent = "Agregar al carrito";
+          addCarButton.setAttribute("data-id", product.id);
+          productTxt.appendChild(addCarButton);
         }
+
+        // Agregar texto del producto al div del producto
         productDiv.appendChild(productTxt);
 
+        // Agregar div del producto al contenedor principal
         productContent.appendChild(productDiv);
       });
     })
@@ -100,6 +127,7 @@ function loadProducts(userRole) {
       console.error("Error al cargar los productos:", error);
     });
 }
+
 
 function loadEventListeners() {
   document.querySelector(".product-content").addEventListener("click", buyElement);
