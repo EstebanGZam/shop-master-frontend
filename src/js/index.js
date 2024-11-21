@@ -27,7 +27,7 @@ function checkLoginStatus() {
   const isLoggedIn = sessionStorage.getItem("LoggedIn");
   // Verificar el tipo de usuario logueado
   const userRole = sessionStorage.getItem("UserRole");
-
+  console.log(userRole);
   if (isLoggedIn === "true") {
     // Ocultar el main si el usuario está logueado
     landingPage.style.display = "none";
