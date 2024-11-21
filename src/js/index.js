@@ -1,3 +1,5 @@
+import { renderCart } from './cart-utils.js';
+
 const loginBtn = document.getElementById("login-btn");
 const registerBtn = document.getElementById("register-btn");
 const historyBtn = document.getElementById("history-btn");
@@ -5,15 +7,8 @@ const logoutBtn = document.getElementById("logout-btn");
 const addProductBtn = document.getElementById("add-product-btn");
 
 const carShop = document.getElementById("car-shop");
-const element1 = document.getElementById("shop-list");
-const list = document.querySelector("#shop-list tbody");
-const purchaseBtn = document.getElementById("purchase-btn");
-const flushCarBtn = document.getElementById("flush-car-shop");
 const landingPage = document.getElementById("landing-page");
 const listOfProducts = document.getElementById("list-of-products");
-
-// Variable global para almacenar los productos del carrito
-let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
 
 document.addEventListener("DOMContentLoaded", () => {
   // Función para verificar el estado de inicio de sesión
