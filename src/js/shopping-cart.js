@@ -99,10 +99,36 @@ function flushCar() {
     renderCart();
 }
 
-function deleteFromCart(e) {
+async function deleteFromCart(e) {
     if (e.target.classList.contains("delete")) {
-        const index = e.target.getAttribute("data-index");
-        cartItems.splice(index, 1);
-        renderCart();
+        const productId = e.target.getAttribute("data-id");
+
+        try {
+            // Llamar al backend para eliminar el producto del carrito
+            const response = await fetch(`http://localhost:8080/cart/remove/${productId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${document.cookie.split("=")[1]}`, // Token JWT si es necesario
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error("Error al eliminar el producto del carrito.");
+            }
+
+            const updatedCart = await response.json(); // Respuesta actualizada del servidor
+            console.log("Producto eliminado del carrito:", updatedCart);
+
+            // Actualizar el contenido de `cartItems` en lugar de reasignarlo
+            cartItems.splice(0, cartItems.length, ...updatedCart.products || []);
+
+            // Renderizar el carrito después de eliminar
+            renderCart();
+        } catch (error) {
+            console.error("Error al eliminar producto del carrito:", error);
+            alert("Hubo un problema al eliminar el producto del carrito.");
+        }
     }
 }
+
