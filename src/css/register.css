@@ -3,16 +3,34 @@
 
 body {
   font-family: "Poppins", sans-serif;
-  background-color: #f1faee; /* Fondo verde claro */
+  background-color: #f1faee;
+  /* Fondo verde claro */
   margin: 0;
   padding: 0;
 }
 
-header {
-  background-color: #1d3557; /* Azul oscuro */
+.header {
+  display: flex;
+  justify-content: center;
+  background-color: #1d3557;
+  /* Azul oscuro */
   color: #fff;
-  padding: 1.25rem 0;
+  padding: 15px 0;
+  position: relative;
   text-align: center;
+}
+
+#header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 25vw;
+}
+
+#header-content img {
+  position: absolute;
+  left: 20px;
 }
 
 .register-form {
@@ -28,7 +46,8 @@ header {
   text-align: center;
   margin-bottom: 1.25rem;
   font-size: 1.5rem;
-  color: #1d3557; /* Azul oscuro */
+  color: #1d3557;
+  /* Azul oscuro */
 }
 
 .form-group {
@@ -39,7 +58,8 @@ header {
   display: block;
   margin-bottom: 0.3125rem;
   font-weight: bold;
-  color: #457b9d; /* Azul claro */
+  color: #457b9d;
+  /* Azul claro */
 }
 
 .form-group input,
@@ -47,7 +67,8 @@ header {
   box-sizing: border-box;
   width: 100%;
   padding: 1rem;
-  border: 1px solid #a8dadc; /* Verde suave */
+  border: 1px solid #a8dadc;
+  /* Verde suave */
   border-radius: 0.3125rem;
   font-size: 1rem;
 }
@@ -55,7 +76,8 @@ header {
 .form-group button {
   width: 100%;
   padding: 1rem 1.25rem;
-  background-color: #1d3557; /* Azul oscuro */
+  background-color: #1d3557;
+  /* Azul oscuro */
   color: #fff;
   border: none;
   border-radius: 0.3125rem;
@@ -65,7 +87,8 @@ header {
 }
 
 .form-group button:hover {
-  background-color: #457b9d; /* Azul claro */
+  background-color: #457b9d;
+  /* Azul claro */
 }
 
 .register-form {
