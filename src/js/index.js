@@ -7,6 +7,7 @@ const addProductBtn = document.getElementById("add-product-btn");
 const carShop = document.getElementById("car-shop");
 const element1 = document.getElementById("shop-list");
 const list = document.querySelector("#shop-list tbody");
+const purchaseBtn = document.getElementById("purchase-btn");
 const flushCarBtn = document.getElementById("flush-car-shop");
 const landingPage = document.getElementById("landing-page");
 const listOfProducts = document.getElementById("list-of-products");
@@ -72,6 +73,15 @@ function loadProducts(userRole) {
     .then((products) => {
       const productContent = document.querySelector(".product-content");
       productContent.innerHTML = "";
+
+      if (products.length === 0) {
+        productContent.innerHTML = `
+          <p style="text-align: center; font-size: 18px; margin-top: 20px;">
+            No hay productos disponibles en este momento.
+          </p>
+        `;
+        return;
+      }
 
       products.forEach((product) => {
         const productDiv = document.createElement("div");
@@ -192,17 +202,29 @@ function readDataElement(element) {
 
 function renderCart() {
   list.innerHTML = "";
-  cartItems.forEach((item, index) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td><img src="${item.image}" width="100" /></td>
-      <td>${item.title}</td>
-      <td>${item.price}</td>
-      <td>${item.quantity}</td>
-      <td><a href="#" class="delete" data-id="${item.id}" data-index="${index}">X</a></td>
+  if (cartItems.length === 0) {
+    const noItemsRow = document.createElement("tr");
+    noItemsRow.innerHTML = `
+      <td colspan="5" style="text-align: center; padding: 20px;">
+        No hay productos en el carrito.
+      </td>
     `;
-    list.appendChild(row);
-  });
+    list.appendChild(noItemsRow);
+    purchaseBtn.style.display = "none";
+    flushCarBtn.style.display = "none";
+  } else {
+    cartItems.forEach((item, index) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td><img src="${item.image}" width="100" /></td>
+        <td>${item.title}</td>
+        <td>${item.price}</td>
+        <td>${item.quantity}</td>
+        <td><a href="#" class="delete" data-id="${item.id}" data-index="${index}">X</a></td>
+      `;
+      list.appendChild(row);
+    });
+  }
 }
 
 function flushCar() {

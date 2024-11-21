@@ -3,8 +3,15 @@ footer {
   text-align: center;
   display: flex;
   justify-content: space-around;
-  box-shadow: 0 0 1em rgba(69, 123, 157, 0.1); /* Azul claro con transparencia */
-  background-color: #f1faee; /* Verde claro */
+  box-shadow: 0 0 1em rgba(69, 123, 157, 0.1);
+  /* Azul claro con transparencia */
+  background-color: #f1faee;
+  /* Verde claro */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
 #footer-container {
@@ -22,7 +29,8 @@ footer {
 .footer-contact h4,
 .footer-social h4 {
   font-size: 0.8em;
-  color: #1d3557; /* Azul oscuro */
+  color: #1d3557;
+  /* Azul oscuro */
 }
 
 #social {
@@ -33,16 +41,19 @@ footer {
 .footer-contact p,
 .footer-link {
   font-size: 0.8em;
-  color: #457b9d; /* Azul claro */
+  color: #457b9d;
+  /* Azul claro */
 }
 
 .footer-link {
   text-decoration: none;
-  color: #457b9d; /* Azul claro */
+  color: #457b9d;
+  /* Azul claro */
 }
 
 .footer-link:hover {
-  color: #1d3557; /* Azul oscuro */
+  color: #1d3557;
+  /* Azul oscuro */
 }
 
 .footer-social .social-icon img {
@@ -58,9 +69,11 @@ footer {
 .footer-bottom {
   align-self: center;
   font-size: 0.8em;
-  color: #a8dadc; /* Verde suave */
+  color: #a8dadc;
+  /* Verde suave */
 }
 
 .footer-bottom p {
-  color: #457b9d; /* Azul claro */
+  color: #457b9d;
+  /* Azul claro */
 }
