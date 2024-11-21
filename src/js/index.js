@@ -62,7 +62,7 @@ function checkLoginStatus() {
 }
 
 function loadProducts(userRole) {
-  fetch("http://127.0.0.1:8080/products", {
+  fetch("http://localhost:8080/products", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
