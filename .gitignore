@@ -253,5 +253,3 @@ modules.xml
 
 # Node.js files
 node_modules/
-package-lock.json
-package.json
