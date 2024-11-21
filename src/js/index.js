@@ -224,6 +224,8 @@ function renderCart() {
       `;
       list.appendChild(row);
     });
+    purchaseBtn.style.display = "block";
+    flushCarBtn.style.display = "block";
   }
 }
 
