@@ -27,6 +27,8 @@ export async function renderCart() {
         // Actualizar la variable global `cartItems`
         cartItems = cartData.products || [];
 
+        console.log("Productos en el carrito:", cartItems);
+
         // Renderizar el carrito en la interfaz
         if (cartItems.length === 0) {
             const noItemsRow = document.createElement("tr");
@@ -42,7 +44,7 @@ export async function renderCart() {
             cartItems.forEach((item) => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                <td><img src="https://via.placeholder.com/100" width="100" /></td>
+                <td><img src="${item.imageUrl}" width="100" /></td>
                 <td>${item.productName}</td>
                 <td>${item.price.toFixed(2)}</td>
                 <td>${item.quantity}</td>

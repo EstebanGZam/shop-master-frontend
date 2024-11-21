@@ -35,8 +35,8 @@ function renderCartItems() {
   cartItems.forEach((item, index) => {
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td><img src="${item.image}" width="100" /></td>
-      <td>${item.title}</td>
+      <td><img src="${item.imageUrl}" width="100" /></td>
+      <td>${item.productName}</td>
       <td>$${item.price}</td>
       <td>${item.quantity}</td>
       <td><a href="#" class="delete" data-index="${index}">X</a></td>
