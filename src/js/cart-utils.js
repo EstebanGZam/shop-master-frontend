@@ -70,8 +70,7 @@ export async function renderCart() {
     }
 }
 
-
-export async function deleteFromCart(e) {
+export async function deleteFromCart(e, renderCartFunction) {
     if (e.target.classList.contains("delete")) {
         const productId = e.target.getAttribute("data-id");
         console.log("Eliminar producto del carrito:", productId);
@@ -96,12 +95,11 @@ export async function deleteFromCart(e) {
             // Actualizar el contenido de `cartItems` en lugar de reasignarlo
             cartItems.splice(0, cartItems.length, ...updatedCart.products || []);
 
-            // Renderizar el carrito después de eliminar
-            renderCart();
+            // Renderizar el carrito usando la función pasada como parámetro
+            renderCartFunction();
         } catch (error) {
             console.error("Error al eliminar producto del carrito:", error);
             alert("Hubo un problema al eliminar el producto del carrito.");
         }
     }
 }
-

@@ -33,8 +33,8 @@
         <tbody></tbody>
       </table>
       <div id="button-container">
-        <button id="flush-car-shop" class="btn-1">Vaciar Carrito</button>
-        <button id="purchase-btn" class="btn-1">Realizar Compra</button>
+        <button type="button" id="flush-car-shop" class="btn-1">Vaciar Carrito</button>
+        <button type="button" id="purchase-btn" class="btn-1">Realizar Compra</button>
       </div>
     </section>
 
@@ -46,8 +46,8 @@
           <label for="payment-method">Método de Pago:</label>
           <select id="payment-method" required>
             <option value="">Seleccione</option>
-            <option value="debit">Débito</option>
-            <option value="credit">Crédito</option>
+            <option value="1">Débito</option>
+            <option value="2">Crédito</option>
           </select>
 
           <label for="card-number">Número de Tarjeta:</label>
@@ -65,7 +65,7 @@
           <label for="expiration-date">Fecha de Expiración:</label>
           <input type="month" id="expiration-date" required />
 
-          <button type="button" id="confirm-payment">Confirmar Pago</button>
+          <button type="submit" id="confirm-payment">Confirmar Pago</button>
         </form>
       </div>
     </div>
@@ -82,7 +82,11 @@
       </div>
     </div>
   </main>
-  <script src="../js/purchase.js"></script>
+  <!-- <script type="module" src="../js/purchase.js"></script> -->
+  <script type="module">
+    import { initializeCart } from './../js/purchase.js';
+    document.addEventListener("DOMContentLoaded", initializeCart);
+  </script>
 </body>
 
 </html>

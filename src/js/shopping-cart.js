@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function loadEventListeners() {
     document.querySelector(".product-content").addEventListener("click", buyElement);
     flushCarBtn.addEventListener("click", flushCar);
-    list.addEventListener("click", deleteFromCart);
+    list.addEventListener("click", (e) => deleteFromCart(e, renderCart));
     document.getElementById("purchase-btn").addEventListener("click", () => {
         sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
     });

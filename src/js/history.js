@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                             ${invoice.products.map((product, index) => `
                                 <div class="slide ${index === 0 ? 'active' : ''}" data-index="${index}">
                                     <div class="product-image">
-                                        <img src="${product.productImage}" alt="${product.productName}">
+                                        <img src="${product.imageUrl}" alt="${product.productName}">
                                     </div>
                                     <div class="product-info">
                                         <p class="product-name">${product.productName}</p>
