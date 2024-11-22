@@ -3,6 +3,7 @@ import { flushCarBtn } from './cart-utils.js';
 import { list } from './cart-utils.js';
 import { cartItems } from './cart-utils.js';
 import { deleteFromCart } from './cart-utils.js';
+import { flushCar } from './cart-utils.js';
 
 document.addEventListener("DOMContentLoaded", () => {
     // Cargar los listeners de eventos
@@ -11,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function loadEventListeners() {
     document.querySelector(".product-content").addEventListener("click", buyElement);
-    flushCarBtn.addEventListener("click", flushCar);
+    flushCarBtn.addEventListener("click", (e) => flushCar(e, renderCart));
     list.addEventListener("click", (e) => deleteFromCart(e, renderCart));
     document.getElementById("purchase-btn").addEventListener("click", () => {
         sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
@@ -91,27 +92,4 @@ function updateLocalCart(element, infoElement) {
 function handleCartError(error) {
     console.error("Error:", error);
     alert("Hubo un problema al agregar el producto al carrito.");
-}
-
-async function flushCar() {
-    try {
-        const response = await fetch("http://localhost:8080/cart/clear", {
-            method: "PATCH",
-            headers: {
-                Authorization: `Bearer ${document.cookie.split("=")[1]}`,
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error("Error al vaciar el carrito");
-        }
-
-        // Actualiza los datos del carrito en el cliente
-        cartItems.length = 0; // Limpia el array local de items
-        renderCart(); // Renderiza el carrito vacío
-        console.log("Carrito limpiado exitosamente");
-    } catch (error) {
-        console.error("Error:", error);
-        alert("Hubo un problema al limpiar el carrito.");
-    }
 }

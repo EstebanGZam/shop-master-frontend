@@ -5,7 +5,13 @@ export let cartItems = [];
 export const flushCarBtn = document.getElementById("flush-car-shop");
 export const list = document.querySelector("#shop-list tbody");
 
-export async function renderCart() {
+export {
+    renderCart,
+    deleteFromCart,
+    flushCar,
+}
+
+async function renderCart() {
     list.innerHTML = "";
 
     try {
@@ -70,7 +76,7 @@ export async function renderCart() {
     }
 }
 
-export async function deleteFromCart(e, renderCartFunction) {
+async function deleteFromCart(e, renderCartFunction) {
     if (e.target.classList.contains("delete")) {
         const productId = e.target.getAttribute("data-id");
         console.log("Eliminar producto del carrito:", productId);
@@ -103,5 +109,29 @@ export async function deleteFromCart(e, renderCartFunction) {
             console.error("Error al eliminar producto del carrito:", error);
             alert("Hubo un problema al eliminar el producto del carrito.");
         }
+    }
+}
+
+
+async function flushCar(e, renderCartFunction) {
+    try {
+        const response = await fetch("http://localhost:8080/cart/clear", {
+            method: "PATCH",
+            headers: {
+                Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error("Error al vaciar el carrito");
+        }
+
+        // Actualiza los datos del carrito en el cliente
+        cartItems.length = 0; // Limpia el array local de items
+        renderCartFunction(); // Renderiza el carrito vacío
+        console.log("Carrito limpiado exitosamente");
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Hubo un problema al limpiar el carrito.");
     }
 }
