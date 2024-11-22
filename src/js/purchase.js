@@ -56,46 +56,70 @@ function closePaymentForm() {
   document.getElementById("payment-form-popup").style.display = "none";
 }
 
-function submitPayment() {
-  const paymentMethod = document.getElementById("payment-method").value;
-  const cardNumber = document.getElementById("card-number").value;
+// Suponiendo que expirationDate es un string en formato "yyyy-MM"
+function formatExpirationDate(expirationDate) {
+  const [year, month] = expirationDate.split("-");
+  const lastDay = new Date(year, month, 0).getDate(); // Obtiene el último día del mes
+  return `${year}-${month}-${String(lastDay).padStart(2, "0")}T23:59:59`;
+}
+
+
+async function submitPayment(event) {
+  // Prevenir el comportamiento por defecto del botón (recarga de página)
+  event.preventDefault();
+  const paymentMethodId = parseInt(document.getElementById("payment-method").value);
+  const cardNumber = parseInt(document.getElementById("card-number").value);
   const cardholderName = document.getElementById("cardholder-name").value;
   const cardholderLastname = document.getElementById("cardholder-lastname").value;
   const securityCode = document.getElementById("security-code").value;
   const expirationDate = document.getElementById("expiration-date").value;
 
-  if (!paymentMethod || !cardNumber || !cardholderName || !cardholderLastname || !securityCode || !expirationDate) {
+  // Formatear la fecha antes de enviarla
+  const formattedExpirationDate = formatExpirationDate(expirationDate);
+
+  // Validación de campos
+  if (!paymentMethodId || !cardNumber || !cardholderName || !cardholderLastname || !securityCode || !expirationDate) {
     alert("Por favor, complete todos los campos del formulario de pago.");
     return;
   }
+
+  // Crear objeto de detalles de pago en el formato esperado
+  const paymentDetail = {
+    cardNumber,
+    cardholderName,
+    cardholderLastname,
+    securityCode,
+    expirationDate: formattedExpirationDate,
+    paymentMethodId
+  };
+
   closePaymentForm();
-  placeOrder({ paymentMethod, cardNumber, cardholderName, cardholderLastname, securityCode, expirationDate });
+  const invoiceData = await placeOrder({ paymentDetail });
+  showInvoice(invoiceData);
+  // Limpiar el carrito
+  cartItems = [];
+  sessionStorage.removeItem("cartItems");
+  renderCartItems();
 }
 
-function placeOrder(paymentDetails) {
-  const username = sessionStorage.getItem("User") || "Invitado";
-
-  fetch("/placeOrder", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ username, cartItems, paymentDetails }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.success) {
-        showInvoice(data.order);
-        cartItems = [];
-        sessionStorage.removeItem("cartItems");
-        renderCartItems();
-      } else {
-        alert("Error al realizar el pedido");
-      }
-    })
-    .catch((error) => {
-      console.error("Error al realizar el pedido:", error);
+async function placeOrder(purchaseData) {
+  try {
+    const response = await fetch("http://localhost:8080/purchase", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+      },
+      body: JSON.stringify(purchaseData),
     });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error al realizar el pedido:", error);
+    alert("Error al procesar el pago. Por favor, intente nuevamente.");
+  }
 }
 
 // Función auxiliar para formatear la tabla de productos
