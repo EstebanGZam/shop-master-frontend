@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // console.log(cartItems);
   addEventListeners();
   loadCartItems();
   renderCartItems();
@@ -15,8 +16,7 @@ function addEventListeners() {
   document.querySelector("#shop-list-order tbody").addEventListener("click", (event) => {
     if (event.target.classList.contains("delete")) {
       event.preventDefault();
-      const index = event.target.getAttribute("data-index");
-      deleteCartItem(index);
+      deleteFromCart(event);
     }
   });
 }
@@ -32,14 +32,14 @@ function renderCartItems() {
   const cartTableBody = document.querySelector("#shop-list-order tbody");
   cartTableBody.innerHTML = "";
 
-  cartItems.forEach((item, index) => {
+  cartItems.forEach((item) => {
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td><img src="${item.imageUrl}" width="100" /></td>
+      <td><img title="${item.productName}" src="${item.imageUrl}" width="100" /></td>
       <td>${item.productName}</td>
       <td>$${item.price}</td>
       <td>${item.quantity}</td>
-      <td><a href="#" class="delete" data-index="${index}">X</a></td>
+      <td><a href="#" class="delete" data-id="${item.productId}">X</a></td>
     `;
     cartTableBody.appendChild(row);
   });
@@ -145,8 +145,37 @@ function closePopup() {
   window.location.href = "/";
 }
 
-function deleteCartItem(index) {
-  cartItems.splice(index, 1);
-  sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
-  renderCartItems();
+async function deleteFromCart(e) {
+  if (e.target.classList.contains("delete")) {
+    const productId = e.target.getAttribute("data-id");
+    console.log("Eliminar producto del carrito:", productId);
+
+    try {
+      // Llamar al backend para eliminar el producto del carrito
+      const response = await fetch(`http://localhost:8080/cart/remove/${productId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al eliminar el producto del carrito.");
+      }
+
+      const updatedCart = await response.json(); // Respuesta actualizada del servidor
+      console.log("Producto eliminado del carrito:", updatedCart);
+
+      // Actualizar el contenido de `cartItems` en lugar de reasignarlo
+      cartItems.splice(0, cartItems.length, ...updatedCart.products || []);
+
+      // Renderizar el carrito después de eliminar
+      renderCartItems();
+    } catch (error) {
+      console.error("Error al eliminar producto del carrito:", error);
+      alert("Hubo un problema al eliminar el producto del carrito.");
+    }
+  }
 }
+

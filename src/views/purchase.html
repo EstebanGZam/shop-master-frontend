@@ -1,85 +1,88 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Finalizar la compra</title>
-    <link rel="stylesheet" href="../css/purchase.css" />
-  </head>
-  <body>
-    <header class="header">
-      <div class="container">
-        <div class="home-btn">
-          <a href="./../views/index.html">Inicio</a>
-        </div>
-        <h1>Finalizar la compra</h1>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finalizar la compra</title>
+  <link rel="stylesheet" href="../css/purchase.css" />
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="home-btn">
+        <a href="./../views/index.html">Inicio</a>
       </div>
-    </header>
-    <main class="container">
-      <section class="cart">
-        <h2>Carrito de compras</h2>
-        <table id="shop-list-order">
-          <thead>
-            <tr>
-              <th>Producto</th>
-              <th>Nombre</th>
-              <th>Precio</th>
-              <th>Cantidad</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <div id="button-container">
-          <button id="flush-car-shop" class="btn-1">Vaciar Carrito</button>
-          <button id="purchase-btn" class="btn-1">Realizar Compra</button>
-        </div>
-      </section>
-      
-      <div id="payment-form-popup" class="popup">
-        <div class="popup-content">
-          <span class="close-payment">&times;</span>
-          <h2>Método de Pago</h2>
-          <form id="payment-form">
-            <label for="payment-method">Método de Pago:</label>
-            <select id="payment-method" required>
-              <option value="">Seleccione</option>
-              <option value="debit">Débito</option>
-              <option value="credit">Crédito</option>
-            </select>
-
-            <label for="card-number">Número de Tarjeta:</label>
-            <input type="text" id="card-number" placeholder="################" maxlength="16" required/>
-
-            <label for="cardholder-name">Nombre del Titular:</label>
-            <input type="text" id="cardholder-name" placeholder="Ingrese el nombre del titular" required />
-
-            <label for="cardholder-lastname">Apellido del Titular:</label>
-            <input type="text" id="cardholder-lastname" placeholder="Ingrese el apellido del titular" required />
-
-            <label for="security-code">Código de Seguridad:</label>
-            <input type="text" id="security-code" maxlength="3" placeholder="###" required />
-
-            <label for="expiration-date">Fecha de Expiración:</label>
-            <input type="month" id="expiration-date" required />
-
-            <button type="button" id="confirm-payment">Confirmar Pago</button>
-          </form>
-        </div>
+      <h1>Finalizar la compra</h1>
+    </div>
+  </header>
+  <main class="container">
+    <section class="cart">
+      <h2>Carrito de compras</h2>
+      <table id="shop-list-order">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div id="button-container">
+        <button id="flush-car-shop" class="btn-1">Vaciar Carrito</button>
+        <button id="purchase-btn" class="btn-1">Realizar Compra</button>
       </div>
+    </section>
 
-      <div id="invoice-popup" class="popup">
-        <div class="popup-content">
-          <span class="close">&times;</span>
-          <h2>Factura</h2>
-          <div id="invoice-id"></div>
-          <div id="invoice-name"></div>
-          <div id="invoice-date"></div>
-          <div id="invoice-order"></div>
-          <div id="invoice-total"></div>
-        </div>
+    <div id="payment-form-popup" class="popup">
+      <div class="popup-content">
+        <span class="close-payment">&times;</span>
+        <h2>Método de Pago</h2>
+        <form id="payment-form">
+          <label for="payment-method">Método de Pago:</label>
+          <select id="payment-method" required>
+            <option value="">Seleccione</option>
+            <option value="debit">Débito</option>
+            <option value="credit">Crédito</option>
+          </select>
+
+          <label for="card-number">Número de Tarjeta:</label>
+          <input type="text" id="card-number" placeholder="################" maxlength="16" required />
+
+          <label for="cardholder-name">Nombre del Titular:</label>
+          <input type="text" id="cardholder-name" placeholder="Ingrese el nombre del titular" required />
+
+          <label for="cardholder-lastname">Apellido del Titular:</label>
+          <input type="text" id="cardholder-lastname" placeholder="Ingrese el apellido del titular" required />
+
+          <label for="security-code">Código de Seguridad:</label>
+          <input type="text" id="security-code" maxlength="3" placeholder="###" required />
+
+          <label for="expiration-date">Fecha de Expiración:</label>
+          <input type="month" id="expiration-date" required />
+
+          <button type="button" id="confirm-payment">Confirmar Pago</button>
+        </form>
       </div>
-    </main>
-    <script src="../js/purchase.js"></script>
-  </body>
+    </div>
+
+    <div id="invoice-popup" class="popup">
+      <div class="popup-content">
+        <span class="close">&times;</span>
+        <h2>Factura</h2>
+        <div id="invoice-id"></div>
+        <div id="invoice-name"></div>
+        <div id="invoice-date"></div>
+        <div id="invoice-order"></div>
+        <div id="invoice-total"></div>
+      </div>
+    </div>
+  </main>
+  <script src="../js/purchase.js"></script>
+</body>
+
 </html>
