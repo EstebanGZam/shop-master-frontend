@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (isLoggedIn) {
     alert(`Ya has iniciado sesión como ${sessionStorage.getItem("User")}. Si deseas iniciar sesión con otro usuario, primero debes cerrar sesión.`);
-    window.location.href = "./../views/index.html"; // Redirigir al index
+    window.location.href = "/"; // Redirigir al index
     return; // Detener ejecución del resto del script
   }
 
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Almacenar al usuario que está logueado
         sessionStorage.setItem("User", username);
 
-        window.location.href = "./../views/index.html"; // Redirigir al index
+        window.location.href = "/"; // Redirigir al index
       } else {
         if (response.status === 401) {
           alert("Credenciales inválidas. Por favor, verifica tu nombre de usuario y contraseña.");

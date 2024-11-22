@@ -152,5 +152,5 @@ function logout() {
   logoutBtn.style.display = "none";
   addProductBtn.style.display = "none";
   // Redirige al usuario a la página de inicio o login
-  window.location.href = "./../views/index.html"; // Cambia esto a la ruta que desees
+  window.location.href = "/"; // Cambia esto a la ruta que desees
 }

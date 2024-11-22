@@ -41,7 +41,7 @@
                 </thead>
                 <tbody></tbody>
               </table>
-              <a href="./../views/purchase.html" id="purchase-btn" class="btn-1">Ir a la compra</a>
+              <a href="/purchase" id="purchase-btn" class="btn-1">Ir a la compra</a>
               <a href="#" id="flush-car-shop" class="btn-2">Vaciar Carrito</a>
             </div>
           </div>
@@ -51,9 +51,9 @@
             <img src="./../assets/mdi--account-circle.svg" alt="Mi cuenta">
             <div class="submenu-dropdown">
               <h3>Mi cuenta</h3>
-              <a href="./../views/login.html" id="login-btn" class="btn-1" style="display: none">Iniciar sesión</a>
-              <a href="./../views/register.html" id="register-btn" class="btn-2" style="display: none">Registrarme</a>
-              <a href="./../views/history.html" id="history-btn" class="btn-1" style="display: none">Ver pedidos</a>
+              <a href="/auth/login" id="login-btn" class="btn-1" style="display: none">Iniciar sesión</a>
+              <a href="/auth/register" id="register-btn" class="btn-2" style="display: none">Registrarme</a>
+              <a href="/purchase/order-history" id="history-btn" class="btn-1" style="display: none">Ver pedidos</a>
               <a href="/" id="logout-btn" class="btn-2" style="display: none">Cerrar sesión</a>
             </div>
           </div>
@@ -75,7 +75,7 @@
   <div class="products" id="list-of-products">
     <h2>Productos</h2>
     <div class="product-content"></div>
-    <a href="./register-product.html" id="add-product-btn" class="btn-1" style="display: none">Añadir Producto</a>
+    <a href="/products" id="add-product-btn" class="btn-1" style="display: none">Añadir Producto</a>
   </div>
   <!-- Footer -->
   <footer>

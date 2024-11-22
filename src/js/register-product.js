@@ -44,5 +44,5 @@ form.addEventListener("submit", async (event) => {
 });
 
 document.getElementById("back-to-index").addEventListener("click", () => {
-  window.location.href = "./../views/index.html"; // Cambia la ruta si tu archivo está en un directorio diferente
+  window.location.href = "/"; // Cambia la ruta si tu archivo está en un directorio diferente
 });

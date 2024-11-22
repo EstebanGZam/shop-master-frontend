@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
         sessionStorage.setItem("LoggedIn", "true");
         sessionStorage.setItem("UserRole", role === 1 ? "admin" : "client");
         sessionStorage.setItem("User", username);
-        window.location.href = "./../views/index.html";
+        window.location.href = "/";
       } else {
         alert("Hubo un error al registrar el usuario");
         // Limpiar campos del formulario en caso de error
