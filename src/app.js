@@ -19,7 +19,7 @@ app.get('/purchase/order-history', (req, res) => res.sendFile(path.join(viewsPat
 app.get('/products', (req, res) => res.sendFile(path.join(viewsPath, 'register-product.html')));
 
 // Manejar rutas no encontradas
-app.use((req, res) => res.status(404).send('Página no encontrada'));
+app.use((req, res) => res.sendFile(path.join(viewsPath, "404.html")));
 
 // Iniciar servidor
 app.listen(PORT, () => {
