@@ -1,32 +1,17 @@
 import { deleteFromCart } from './cart-utils.js';
-// import { cartItems } from './cart-utils.js';
+import { flushCar } from './cart-utils.js';
 
 let cartItems = JSON.parse(sessionStorage.getItem("cartItems")) || [];
 // Función de inicialización
 export function initializeCart() {
-  // // Ejemplo de uso:
-  // const invoiceData = {
-  //   invoiceId: 123,
-  //   issueDate: "2024-03-22T15:30:00",
-  //   total: 156.99,
-  //   products: [
-  //     {
-  //       productId: "PROD-1",
-  //       productName: "Producto 1",
-  //       quantity: 2,
-  //       price: 29.99,
-  //       total: 59.98,
-  //       imageUrl: "https://static.vecteezy.com/system/resources/previews/010/792/673/non_2x/colorful-free-range-male-rooster-isolated-on-white-background-free-png.png"
-  //     }
-  //   ]
-  // };
-  // showInvoice(invoiceData);
   addEventListeners();
   renderCartItems();
 }
 
 function addEventListeners() {
-  document.getElementById("flush-car-shop").addEventListener("click", flushCar);
+  document.getElementById("flush-car-shop").addEventListener("click", (e) => {
+    flushCar(e, renderCartItems);
+  });
   document.getElementById("purchase-btn").addEventListener("click", openPaymentForm);
   document.querySelector(".close-payment").addEventListener("click", closePaymentForm);
   document.getElementById("confirm-payment").addEventListener("click", submitPayment);
@@ -57,12 +42,6 @@ function renderCartItems() {
     `;
     cartTableBody.appendChild(row);
   });
-}
-
-function flushCar() {
-  cartItems = [];
-  sessionStorage.removeItem("cartItems");
-  renderCartItems();
 }
 
 function openPaymentForm() {

@@ -127,7 +127,7 @@ async function flushCar(e, renderCartFunction) {
         }
 
         // Actualiza los datos del carrito en el cliente
-        cartItems.length = 0; // Limpia el array local de items
+        sessionStorage.removeItem("cartItems");
         renderCartFunction(); // Renderiza el carrito vacío
         console.log("Carrito limpiado exitosamente");
     } catch (error) {
