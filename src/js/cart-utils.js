@@ -95,6 +95,8 @@ export async function deleteFromCart(e, renderCartFunction) {
             // Actualizar el contenido de `cartItems` en lugar de reasignarlo
             cartItems.splice(0, cartItems.length, ...updatedCart.products || []);
 
+            sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
+
             // Renderizar el carrito usando la función pasada como parámetro
             renderCartFunction();
         } catch (error) {

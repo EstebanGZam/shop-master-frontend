@@ -1,9 +1,10 @@
 import { deleteFromCart } from './cart-utils.js';
-import { cartItems } from './cart-utils.js';
+// import { cartItems } from './cart-utils.js';
 
-
+let cartItems = JSON.parse(sessionStorage.getItem("cartItems")) || [];
 // Función de inicialización
 export function initializeCart() {
+  console.log(cartItems);
   addEventListeners();
   renderCartItems();
 }
@@ -25,6 +26,7 @@ function addEventListeners() {
 }
 
 function renderCartItems() {
+  cartItems = JSON.parse(sessionStorage.getItem("cartItems")) || [];
   const cartTableBody = document.querySelector("#shop-list-order tbody");
   cartTableBody.innerHTML = "";
 
