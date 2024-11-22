@@ -1,4 +1,16 @@
-/* Estilos para la tabla y el slider */
+/* Estilos para la tabla y celdas */
+#orders-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#orders-table td {
+  vertical-align: middle;
+  text-align: center;
+  padding: 15px;
+}
+
+/* Estilos para el slider */
 .slider-container {
   width: 200px;
   position: relative;
@@ -10,6 +22,9 @@
   position: relative;
   width: 100%;
   height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .slide {
@@ -23,7 +38,10 @@
 
 .slide.active {
   opacity: 1;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .product-image {
@@ -42,9 +60,14 @@
 }
 
 .product-info {
+  width: 100%;
   padding: 10px;
   text-align: center;
   background: rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .product-name {
@@ -67,6 +90,7 @@
   display: flex;
   justify-content: space-between;
   padding: 0 10px;
+  pointer-events: none; /* Permite que los clics pasen a través del contenedor */
 }
 
 .prev-btn,
@@ -78,6 +102,7 @@
   cursor: pointer;
   border-radius: 50%;
   transition: background-color 0.3s;
+  pointer-events: auto; /* Restaura la interactividad de los botones */
 }
 
 .prev-btn:hover,
@@ -88,12 +113,15 @@
 .slider-dots {
   text-align: center;
   margin-top: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
 }
 
 .dot {
   height: 8px;
   width: 8px;
-  margin: 0 4px;
   background-color: #bbb;
   border-radius: 50%;
   display: inline-block;
@@ -103,4 +131,12 @@
 
 .dot.active {
   background-color: #717171;
+}
+
+/* Estilos adicionales para el encabezado de la tabla si lo necesitas */
+#orders-table th {
+  text-align: center;
+  padding: 12px;
+  background-color: #f8f9fa;
+  font-weight: bold;
 }
