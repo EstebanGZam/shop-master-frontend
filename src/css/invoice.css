@@ -11,3 +11,7 @@
   border-radius: 8px; /* Opcional: redondea los bordes */
   object-fit: cover; /* Mantiene el contenido ajustado */
 }
+
+.mt-4 {
+  margin-top: 1rem; /* Espacio de 1rem arriba */
+}
