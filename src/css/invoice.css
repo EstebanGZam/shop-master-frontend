@@ -1,0 +1,13 @@
+.items-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Opcional: centra los elementos horizontalmente */
+  gap: 8px; /* Espacio entre elementos */
+}
+
+.product-image {
+  max-width: 100px; /* Limita el ancho máximo a 100px */
+  height: auto; /* Mantiene la proporción de la imagen */
+  border-radius: 8px; /* Opcional: redondea los bordes */
+  object-fit: cover; /* Mantiene el contenido ajustado */
+}

@@ -4,7 +4,23 @@ import { deleteFromCart } from './cart-utils.js';
 let cartItems = JSON.parse(sessionStorage.getItem("cartItems")) || [];
 // Función de inicialización
 export function initializeCart() {
-  console.log(cartItems);
+  // // Ejemplo de uso:
+  // const invoiceData = {
+  //   invoiceId: 123,
+  //   issueDate: "2024-03-22T15:30:00",
+  //   total: 156.99,
+  //   products: [
+  //     {
+  //       productId: "PROD-1",
+  //       productName: "Producto 1",
+  //       quantity: 2,
+  //       price: 29.99,
+  //       total: 59.98,
+  //       imageUrl: "https://static.vecteezy.com/system/resources/previews/010/792/673/non_2x/colorful-free-range-male-rooster-isolated-on-white-background-free-png.png"
+  //     }
+  //   ]
+  // };
+  // showInvoice(invoiceData);
   addEventListeners();
   renderCartItems();
 }
@@ -103,41 +119,70 @@ function placeOrder(paymentDetails) {
     });
 }
 
-function formatItemsTable(items) {
-  return `
-    <table>
-      <tr>
-        <th>Producto</th>
-        <th>Cantidad</th>
-      </tr>
-      ${items
-      .map(
-        (item) => `
+// Función auxiliar para formatear la tabla de productos
+function formatItemsTable(products) {
+  const tableHeader = `
+    <table class="w-full table-auto">
+      <thead>
         <tr>
-          <td>${item.title}</td>
-          <td>${item.quantity}</td>
+          <th class="px-4 py-2">Producto</th>
+          <th class="px-4 py-2">Cantidad</th>
+          <th class="px-4 py-2">Precio Unit.</th>
+          <th class="px-4 py-2">Total</th>
         </tr>
-      `
-      )
-      .join("")}
-    </table>
+      </thead>
+      <tbody>
   `;
+
+  const tableRows = products.map(item => `
+    <tr>
+      <td class="border px-4 py-2">
+        <div class="items-center">
+          <img src="${item.imageUrl}" alt="${item.productName}" class="product-image w-12 h-12 object-cover mr-2"/>
+          <span>${item.productName}</span>
+        </div>
+      </td>
+      <td class="border px-4 py-2 text-center">${item.quantity}</td>
+      <td class="border px-4 py-2 text-right">$${item.price.toFixed(2)}</td>
+      <td class="border px-4 py-2 text-right">$${item.total.toFixed(2)}</td>
+    </tr>
+  `).join('');
+
+  return `${tableHeader}${tableRows}</tbody></table>`;
 }
 
-function showInvoice(order) {
-  document.getElementById("invoice-id").innerHTML = `<strong>Número de pedido:</strong> ${order.id}<br>`;
-  document.getElementById("invoice-name").innerHTML = `<strong>Nombre:</strong> ${order.customer}<br>`;
-  document.getElementById("invoice-date").innerHTML = `<strong>Fecha:</strong> ${new Date(
-    order.date
-  ).toLocaleString()}<br>`;
-  document.getElementById("invoice-order").innerHTML = `<strong>Orden:</strong><br>${formatItemsTable(
-    order.items
-  )}<br>`;
-  document.getElementById("invoice-total").innerHTML = `<strong>Total:</strong> $${order.total.toFixed(2)}<br>`;
+// Función para formatear la fecha
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleString('es-ES', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
+
+// Función principal para mostrar la factura
+function showInvoice(invoice) {
+  document.getElementById("invoice-id").innerHTML = `
+    <span class="font-bold">Número de factura:</span> ${invoice.invoiceId}
+  `;
+
+  document.getElementById("invoice-date").innerHTML = `
+    <span class="font-bold">Fecha:</span> ${formatDate(invoice.issueDate)}
+  `;
+
+  document.getElementById("invoice-order").innerHTML = formatItemsTable(invoice.products);
+
+  document.getElementById("invoice-total").innerHTML = `
+    <div class="text-right mt-4">
+      <span class="font-bold">Total:</span> $${invoice.total.toFixed(2)}
+    </div>
+  `;
 
   document.getElementById("invoice-popup").style.display = "block";
 }
-
 function closePopup() {
   document.getElementById("invoice-popup").style.display = "none";
   window.location.href = "/";
