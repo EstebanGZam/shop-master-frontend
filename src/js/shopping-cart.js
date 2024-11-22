@@ -18,8 +18,6 @@ function loadEventListeners() {
     });
 }
 
-
-
 function buyElement(e) {
     e.preventDefault();
     if (e.target.classList.contains("add-car")) {
@@ -95,7 +93,25 @@ function handleCartError(error) {
     alert("Hubo un problema al agregar el producto al carrito.");
 }
 
-function flushCar() {
-    cartItems = [];
-    renderCart();
+async function flushCar() {
+    try {
+        const response = await fetch("http://localhost:8080/cart/clear", {
+            method: "PATCH",
+            headers: {
+                Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error("Error al vaciar el carrito");
+        }
+
+        // Actualiza los datos del carrito en el cliente
+        cartItems.length = 0; // Limpia el array local de items
+        renderCart(); // Renderiza el carrito vacío
+        console.log("Carrito limpiado exitosamente");
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Hubo un problema al limpiar el carrito.");
+    }
 }
