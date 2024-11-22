@@ -1,12 +1,14 @@
+// JavaScript para manejar el historial de órdenes y carrusel de productos
 document.addEventListener("DOMContentLoaded", async () => {
     const errorMessage = document.getElementById("error-message");
     const ordersTable = document.getElementById("orders-table");
     const tbody = document.getElementById("order-history-body");
 
     try {
-        const response = await fetch(`http://localhost:8080/history`, {
+        const response = await fetch(`http://localhost:8080/purchase/order-history`, {
             method: "GET",
             headers: {
+                "Content-Type": "application/json",
                 Authorization: `Bearer ${document.cookie.split("=")[1]}`,
             },
         });
@@ -39,30 +41,38 @@ document.addEventListener("DOMContentLoaded", async () => {
                 totalTd.textContent = `$${invoice.total.toFixed(2)}`;
                 tr.appendChild(totalTd);
 
-                // Productos
+                // Productos con carrusel mejorado
                 const productsTd = document.createElement("td");
-                const carouselId = `carousel-${invoice.invoiceId}`;
+                const sliderId = `slider-${invoice.invoiceId}`;
 
                 productsTd.innerHTML = `
-                  <div class="carousel-container" id="${carouselId}">
-                      ${invoice.products
-                        .map(
-                            (product, index) => `
-                              <div class="carousel-item ${index === 0 ? "active" : ""}">
-                                  <img src="${product.image}" alt="${product.productName}">
-                                  <div class="carousel-caption">
-                                      <p>${product.quantity} x $${product.price.toFixed(2)}</p>
-                                  </div>
-                              </div>
-                          `
-                        )
-                        .join("")}
-                      <div class="carousel-control-prev" onclick="prevSlide('${carouselId}')">&#10094;</div>
-                      <div class="carousel-control-next" onclick="nextSlide('${carouselId}')">&#10095;</div>
-                  </div>
-              `;
+                    <div class="slider-container">
+                        <div class="slider" id="${sliderId}">
+                            ${invoice.products.map((product, index) => `
+                                <div class="slide ${index === 0 ? 'active' : ''}" data-index="${index}">
+                                    <div class="product-image">
+                                        <img src="${product.productImage}" alt="${product.productName}">
+                                    </div>
+                                    <div class="product-info">
+                                        <p class="product-name">${product.productName}</p>
+                                        <p class="product-quantity">${product.quantity} x $${product.price.toFixed(2)}</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="slider-controls">
+                            <button class="prev-btn" onclick="moveSlide('${sliderId}', -1)">❮</button>
+                            <button class="next-btn" onclick="moveSlide('${sliderId}', 1)">❯</button>
+                        </div>
+                        <div class="slider-dots">
+                            ${invoice.products.map((_, index) => `
+                                <span class="dot ${index === 0 ? 'active' : ''}" 
+                                      onclick="goToSlide('${sliderId}', ${index})"></span>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
                 tr.appendChild(productsTd);
-
                 tbody.appendChild(tr);
             });
         } else if (response.status === 401) {
@@ -72,9 +82,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         } else {
             errorMessage.textContent = "Ocurrió un error al recuperar el historial de órdenes.";
         }
-
-        errorMessage.style.display = "block";
-        ordersTable.style.display = "none";
     } catch (error) {
         console.error("Error al obtener el historial de órdenes:", error);
         errorMessage.textContent = "No se pudo conectar con el servidor. Inténtalo más tarde.";
@@ -82,3 +89,37 @@ document.addEventListener("DOMContentLoaded", async () => {
         ordersTable.style.display = "none";
     }
 });
+
+// Funciones para controlar el slider
+function moveSlide(sliderId, direction) {
+    const slider = document.getElementById(sliderId);
+    const slides = slider.querySelectorAll('.slide');
+    const currentSlide = slider.querySelector('.slide.active');
+    const currentIndex = parseInt(currentSlide.dataset.index);
+    const totalSlides = slides.length;
+
+    let newIndex = currentIndex + direction;
+
+    if (newIndex >= totalSlides) newIndex = 0;
+    if (newIndex < 0) newIndex = totalSlides - 1;
+
+    updateSlidePosition(sliderId, newIndex);
+}
+
+function goToSlide(sliderId, index) {
+    updateSlidePosition(sliderId, index);
+}
+
+function updateSlidePosition(sliderId, newIndex) {
+    const slider = document.getElementById(sliderId);
+    const slides = slider.querySelectorAll('.slide');
+    const dots = slider.parentElement.querySelectorAll('.dot');
+
+    // Actualizar slides
+    slides.forEach(slide => slide.classList.remove('active'));
+    slides[newIndex].classList.add('active');
+
+    // Actualizar dots
+    dots.forEach(dot => dot.classList.remove('active'));
+    dots[newIndex].classList.add('active');
+}
