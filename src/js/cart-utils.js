@@ -47,6 +47,7 @@ async function renderCart() {
             purchaseBtn.style.display = "none";
             flushCarBtn.style.display = "none";
         } else {
+            var total = 0;
             cartItems.forEach((item) => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
@@ -58,9 +59,18 @@ async function renderCart() {
                 <td><a href="#" class="delete" data-id="${item.productId}">X</a></td>
             `;
                 list.appendChild(row);
+                total += item.total;
             });
             purchaseBtn.style.display = "block";
             flushCarBtn.style.display = "block";
+
+            const totalRow = document.createElement("tr");
+            totalRow.innerHTML = `
+                        <td colspan="6" style="text-align: center; padding: 20px;">
+                            <h3>Total: $${total.toFixed(2)}</h3>
+                        </td>
+                        `;
+            list.appendChild(totalRow);
         }
     } catch (error) {
         console.error("Error al renderizar el carrito:", error);
