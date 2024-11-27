@@ -61,8 +61,8 @@ function renderCartItems() {
 
   const totalRow = document.createElement("tr");
   totalRow.innerHTML = `
-            <td colspan="6" style="text-align: center; padding: 20px;">
-                <h3>Total: $${total.toFixed(2)}</h3>
+            <td colspan="6" style="text-align: right;">
+              <div class="total-label">Total a pagar: \$${total.toFixed(2)}</div>
             </td>
             `;
   cartTableBody.appendChild(totalRow);
@@ -150,13 +150,13 @@ async function placeOrder(purchaseData) {
 // Función auxiliar para formatear la tabla de productos
 function formatItemsTable(products) {
   const tableHeader = `
-    <table class="w-full table-auto">
+    <table class="table-auto mt-4">
       <thead>
         <tr>
           <th class="px-4 py-2">Producto</th>
           <th class="px-4 py-2">Cantidad</th>
           <th class="px-4 py-2">Precio Unit.</th>
-          <th class="px-4 py-2">Total</th>
+          <th class="px-4 py-2">Total x Producto</th>
         </tr>
       </thead>
       <tbody>
@@ -204,8 +204,8 @@ function showInvoice(invoice) {
   document.getElementById("invoice-order").innerHTML = formatItemsTable(invoice.products);
 
   document.getElementById("invoice-total").innerHTML = `
-    <div class="text-right mt-4">
-      <span class="font-bold">Total:</span> $${invoice.total.toFixed(2)}
+    <div id="total-purchase">
+      <span class="font-bold">Total de la compra: \$${invoice.total.toFixed(2)}</span>
     </div>
   `;
 

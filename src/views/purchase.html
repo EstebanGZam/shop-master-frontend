@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Finalizar la compra</title>
   <link rel="stylesheet" href="../css/purchase.css" />
-  <link rel="stylesheet" href="../css/payment-method.css" />
+  <link rel="stylesheet" href="../css/payment-popup.css" />
   <link rel="stylesheet" href="../css/invoice.css" />
 </head>
 
@@ -53,14 +53,14 @@
             <option value="2">Crédito</option>
           </select>
 
-          <label for="card-number">Número de Tarjeta:</label>
-          <input type="text" id="card-number" placeholder="#########" maxlength="9" required />
-
           <label for="cardholder-name">Nombre del Titular:</label>
           <input type="text" id="cardholder-name" placeholder="Ingrese el nombre del titular" required />
 
           <label for="cardholder-lastname">Apellido del Titular:</label>
           <input type="text" id="cardholder-lastname" placeholder="Ingrese el apellido del titular" required />
+
+          <label for="card-number">Número de Tarjeta:</label>
+          <input type="text" id="card-number" placeholder="#########" maxlength="9" required />
 
           <label for="security-code">Código de Seguridad:</label>
           <input type="text" id="security-code" maxlength="3" placeholder="###" required />
