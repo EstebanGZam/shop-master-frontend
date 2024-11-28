@@ -60,7 +60,7 @@ function loadReviewsInPage(reviews) {
     if (reviews.length === 0) {
         reviewsList.innerHTML = `
                 <p style="text-align: center; font-size: 18px; margin-top: 20px;">
-                    No hay reseñas disponibles para este producto.
+                    No hay reseñas disponibles.
                 </p>
             `;
         return;
@@ -162,6 +162,43 @@ async function filterReviews(rating) {
     }
 }
 
+// Función para verificar si el producto ha sido comprado
+async function checkProductPurchased() {
+    const addReviewBtn = document.getElementById('add-review-btn');
+
+    try {
+        const response = await fetch(`http://localhost:8080/purchase/consult-purchase/${selectedProductId}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+                },
+            }
+        );
+
+        if (response.ok) {
+            const isPurchased = await response.json();
+            addReviewBtn.disabled = !isPurchased;
+        } else {
+            console.error('Error al verificar la compra del producto');
+            addReviewBtn.disabled = true;
+        }
+    } catch (error) {
+        console.error('Error en la solicitud:', error);
+        addReviewBtn.disabled = true;
+    }
+}
+
+// Llamar a la función al cargar la página
+document.addEventListener('DOMContentLoaded', checkProductPurchased);
+
+// Evento para el botón de agregar reseña
+document.getElementById('add-review-btn').addEventListener('click', () => {
+    // Aquí agregarías la lógica para abrir un modal o formulario de reseña
+    console.log('Agregar reseña');
+});
+
 // Inicializar
 document.addEventListener("DOMContentLoaded", () => {
     if (selectedProductId) {
@@ -174,3 +211,4 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
     }
 });
+
