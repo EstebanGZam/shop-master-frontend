@@ -28,3 +28,25 @@ main {
 .text-primary {
   color: #1d3557 !important;
 }
+
+.star-rating {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.star-rating .btn {
+  margin: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.star-rating .btn i {
+  font-size: 1rem;
+}
+
+.star-rating .btn.selected {
+  background-color: #ffc107;
+  color: white;
+}
