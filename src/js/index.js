@@ -10,6 +10,14 @@ const carShop = document.getElementById("car-shop");
 const landingPage = document.getElementById("landing-page");
 const listOfProducts = document.getElementById("list-of-products");
 
+const sizeFilter = document.getElementById("size-filter");
+const categoryFilter = document.getElementById("category-filter");
+const applyFiltersBtn = document.getElementById("apply-filters");
+const clearFiltersBtn = document.getElementById("clear-filters");
+
+let allProducts = [];
+let currentUserRole = null;
+
 document.addEventListener("DOMContentLoaded", () => {
   // Función para verificar el estado de inicio de sesión
   checkLoginStatus();
@@ -55,89 +63,138 @@ function checkLoginStatus() {
   }
 }
 
-function loadProducts(userRole) {
-  fetch("http://localhost:8080/products", {
+function loadProducts(userRole, sizeId = null, categoryId = null) {
+  let url = "http://localhost:8080/products";
+  const params = new URLSearchParams();
+
+  if (sizeId) {
+    url = `http://localhost:8080/products/filter-by-size?size=${sizeId}`;
+  }
+  if (categoryId) {
+    url = `http://localhost:8080/products/filter-by-category?categoryId=${categoryId}`;
+  }
+
+  fetch(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${document.cookie.split("=")[1]}`,
     },
   })
-    .then((response) => response.json())
-    .then((products) => {
-      const productContent = document.querySelector(".product-content");
-      productContent.innerHTML = "";
-
-      if (products.length === 0) {
-        productContent.innerHTML = `
-          <p style="text-align: center; font-size: 18px; margin-top: 20px;">
-            No hay productos disponibles en este momento.
-          </p>
-        `;
-        return;
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-
-      products.forEach((product) => {
-        const productDiv = document.createElement("div");
-        productDiv.classList.add("product");
-
-        // Crear contenedor de la imagen
-        const imageContainer = document.createElement("div");
-        imageContainer.classList.add("image-container");
-
-        // Crear imagen del producto
-        const productImg = document.createElement("img");
-        productImg.src = product.imageUrl;
-        productImg.alt = product.name;
-        productImg.style.width = "100%";
-        // productImg.style.height = "200px";
-        productImg.style.objectFit = "cover"; // Ajusta la imagen proporcionalmente
-        imageContainer.appendChild(productImg);
-
-        // Agregar contenedor de la imagen al div del producto
-        productDiv.appendChild(imageContainer);
-
-        // Crear texto del producto
-        const productTxt = document.createElement("div");
-        productTxt.classList.add("product-txt");
-
-        productTxt.innerHTML = `
-          <h3>${product.name}</h3>
-          <p><strong>Descripción:</strong> ${product.description}</p>
-          <p><strong>Precio:</strong> $${product.price.toFixed(2)}</p>
-          <p><strong>Stock:</strong> ${product.stockQuantity}</p>
-          <p><strong>Talla:</strong> ${product.sizeName || "N/A"}</p>
-          <p><strong>Categoría:</strong> ${product.categoryName || "N/A"}</p>
-          <p><strong>Fecha de creación:</strong> ${new Date(product.creationDate).toLocaleDateString("es-ES")}</p>
-        `;
-
-        // Si el usuario no es un administrador, agregar botón al carrito
-        if (userRole !== "admin") {
-          const addCarButton = document.createElement("a");
-          addCarButton.href = "#";
-          addCarButton.classList.add("add-car", "btn-2");
-          addCarButton.textContent = "Agregar al carrito";
-          addCarButton.setAttribute("data-id", product.id);
-          productTxt.appendChild(addCarButton);
-        }
-
-        // Agregar texto del producto al div del producto
-        productDiv.appendChild(productTxt);
-
-        // Agregar div del producto al contenedor principal
-        productContent.appendChild(productDiv);
-      });
+      return response.json();
+    })
+    .then((products) => {
+      allProducts = products;
+      displayProducts(products, userRole);
     })
     .catch((error) => {
       console.error("Error al cargar los productos:", error);
+      const productContent = document.querySelector(".product-content");
+      productContent.innerHTML = `
+        <p style="color: red; text-align: center;">
+          Ocurrió un error al cargar los productos. Inténtalo de nuevo más tarde.
+        </p>
+      `;
     });
 }
 
+function displayProducts(products, userRole) {
+  const productContent = document.querySelector(".product-content");
+  productContent.innerHTML = "";
+
+  if (products.length === 0) {
+    productContent.innerHTML = `
+      <p style="text-align: center; font-size: 18px; margin-top: 20px;">
+        No hay productos disponibles con los filtros seleccionados.
+      </p>
+    `;
+    return;
+  }
+
+  products.forEach((product) => {
+    const productDiv = document.createElement("div");
+    productDiv.classList.add("product");
+
+    const imageContainer = document.createElement("div");
+    imageContainer.classList.add("image-container");
+
+    const productImg = document.createElement("img");
+    productImg.src = product.imageUrl;
+    productImg.alt = product.name;
+    productImg.style.width = "100%";
+    productImg.style.objectFit = "cover";
+    imageContainer.appendChild(productImg);
+
+    productDiv.appendChild(imageContainer);
+
+    const productTxt = document.createElement("div");
+    productTxt.classList.add("product-txt");
+
+    productTxt.innerHTML = `
+      <h3>${product.name}</h3>
+      <p><strong>Descripción:</strong> ${product.description}</p>
+      <p><strong>Precio:</strong> $${product.price.toFixed(2)}</p>
+      <p><strong>Stock:</strong> ${product.stockQuantity}</p>
+      <p><strong>Talla:</strong> ${product.sizeName || "N/A"}</p>
+      <p><strong>Categoría:</strong> ${product.categoryName || "N/A"}</p>
+      <p><strong>Fecha de creación:</strong> ${new Date(product.creationDate).toLocaleDateString("es-ES")}</p>
+    `;
+
+    if (userRole !== "admin") {
+      const addCarButton = document.createElement("a");
+      addCarButton.href = "#";
+      addCarButton.classList.add("add-car", "btn-2");
+      addCarButton.textContent = "Agregar al carrito";
+      addCarButton.setAttribute("data-id", product.id);
+      productTxt.appendChild(addCarButton);
+    }
+
+    productDiv.appendChild(productTxt);
+    productContent.appendChild(productDiv);
+  });
+}
+
+function applyFilters() {
+  const selectedSize = sizeFilter.value;
+  const selectedCategory = categoryFilter.value;
+
+  console.log("Talla seleccionada:", selectedSize);
+  console.log("Categoría seleccionada:", selectedCategory);
+
+  applyFiltersBtn.disabled = true;
+
+  loadProducts(currentUserRole, selectedSize, selectedCategory);
+
+  setTimeout(() => {
+    applyFiltersBtn.disabled = false;
+  }, 500);
+}
+
+function clearFilters() {
+  sizeFilter.value = "";
+  categoryFilter.value = "";
+
+  loadProducts(currentUserRole);
+}
 
 function loadEventListeners() {
   logoutBtn.addEventListener("click", (e) => {
-    e.preventDefault(); // Previene comportamientos no deseados
+    e.preventDefault();
     logout();
+  });
+
+  applyFiltersBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    applyFilters();
+  });
+
+  clearFiltersBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    clearFilters();
   });
 }
 

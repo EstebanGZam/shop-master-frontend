@@ -74,6 +74,34 @@
 
   <div class="products" id="list-of-products">
     <h2>Productos</h2>
+    <div class="filter-section">
+      <div class="filter-group">
+        <label for="size-filter">Talla:</label>
+        <select id="size-filter" class="filter-select">
+          <option value="">Todas las Tallas</option>
+          <option value="001">S</option>
+          <option value="002">M</option>
+          <option value="003">L</option>
+          <option value="004">XL</option>
+        </select>
+      </div>
+    
+      <div class="filter-group">
+        <label for="category-filter">Categoría:</label>
+        <select id="category-filter" class="filter-select">
+          <option value="">Todas las Categorías</option>
+          <option value="001">Camisetas</option>
+          <option value="002">Pantalones</option>
+          <option value="003">Buzos</option>
+          <option value="004">Chaquetas</option>
+        </select>
+      </div>
+    
+      <div class="filter-group">
+        <button id="apply-filters" class="filter-btn">Aplicar Filtros</button>
+        <button id="clear-filters" class="filter-btn">Limpiar Filtros</button>
+      </div>
+    </div>
     <div class="product-content"></div>
     <a href="/products" id="add-product-btn" class="btn-1" style="display: none">Añadir Producto</a>
   </div>
