@@ -63,16 +63,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json();
             })
             .then(data => {
-                alert('Reseña enviada exitosamente');
+                console.log('Reseña enviada exitosamente');
                 reviewModal.hide();
                 // Limpiar formulario
                 document.getElementById('review-comment').value = '';
                 starButtons.forEach(btn => btn.classList.remove('selected'));
                 selectedRating = null;
+                window.location.reload();
             })
             .catch(error => {
                 console.error('Error:', error);
                 alert('Hubo un problema al enviar la reseña');
+                window.location.reload();
             });
     });
 });

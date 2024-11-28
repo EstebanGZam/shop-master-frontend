@@ -1,13 +1,13 @@
 // Recuperar el ID del producto desde sessionStorage
 const selectedProductId = sessionStorage.getItem("selectedProductId");
 
-const reviewsData = [
-    { id: "1", rating: 5, comment: "Excelente producto.", date: "2024-11-25", userId: 101 },
-    { id: "2", rating: 4, comment: "Muy bueno.", date: "2024-11-24", userId: 102 },
-    { id: "3", rating: 3, comment: "Aceptable.", date: "2024-11-23", userId: 103 },
-    { id: "4", rating: 2, comment: "No fue lo que esperaba.", date: "2024-11-22", userId: 104 },
-    { id: "5", rating: 1, comment: "Mala experiencia.", date: "2024-11-21", userId: 105 },
-];
+// const reviewsData = [
+//     { id: "1", rating: 5, comment: "Excelente producto.", date: "2024-11-25", userId: 101 },
+//     { id: "2", rating: 4, comment: "Muy bueno.", date: "2024-11-24", userId: 102 },
+//     { id: "3", rating: 3, comment: "Aceptable.", date: "2024-11-23", userId: 103 },
+//     { id: "4", rating: 2, comment: "No fue lo que esperaba.", date: "2024-11-22", userId: 104 },
+//     { id: "5", rating: 1, comment: "Mala experiencia.", date: "2024-11-21", userId: 105 },
+// ];
 
 // Cargar datos del producto desde el backend
 async function loadProduct(productId) {
@@ -35,7 +35,7 @@ async function loadProduct(productId) {
         document.getElementById("product-name").textContent = productData.name;
         document.getElementById("product-description").textContent = productData.description;
         document.getElementById("product-price").textContent = `\$${productData.price.toFixed(2)}`;
-        document.getElementById("product-stock").textContent = productData.stockQuantity;
+        // document.getElementById("product-stock").textContent = productData.stockQuantity;
         document.getElementById("product-creation-date").textContent = new Date(
             productData.creationDate
         ).toLocaleDateString();
@@ -54,7 +54,7 @@ async function loadProduct(productId) {
 // Cargar reseñas
 function loadReviewsInPage(reviews) {
     const reviewsList = document.getElementById("reviews-list");
-    reviewsList.innerHTML = ""; // Limpiar reseñas previas
+    reviewsList.innerHTML = ""; // Limpiar reseñas previas 
 
     // Verificar si hay reseñas disponibles
     if (reviews.length === 0) {
@@ -71,6 +71,7 @@ function loadReviewsInPage(reviews) {
         const reviewItem = document.createElement("div");
         reviewItem.classList.add("review-item");
         reviewItem.innerHTML = `
+                <strong>Usuario:</strong> ${review.username}<br>
                 <strong>Calificación:</strong> ${review.rating} Estrellas<br>
                 <strong>Comentario:</strong> ${review.comment || "Sin comentario"}<br>
                 <small><em>${new Date(review.date).toLocaleDateString()}</em></small>
@@ -78,7 +79,6 @@ function loadReviewsInPage(reviews) {
         reviewsList.appendChild(reviewItem);
     });
 }
-
 // Cargar reseñas desde el backend
 async function loadReviews(productId) {
     try {
