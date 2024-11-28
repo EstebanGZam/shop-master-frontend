@@ -65,7 +65,6 @@ function checkLoginStatus() {
 
 function loadProducts(userRole, sizeId = null, categoryId = null) {
   let url = "http://localhost:8080/products";
-  const params = new URLSearchParams();
 
   if (sizeId) {
     url = `http://localhost:8080/products/filter-by-size?size=${sizeId}`;
@@ -127,8 +126,17 @@ function displayProducts(products, userRole) {
     productImg.alt = product.name;
     productImg.style.width = "100%";
     productImg.style.objectFit = "cover";
-    imageContainer.appendChild(productImg);
 
+    // Agregar evento click para redirigir y guardar ID del producto
+    productImg.addEventListener("click", () => {
+      // Guardar el id del producto en sessionStorage
+      sessionStorage.setItem("selectedProductId", product.id);
+
+      // Redirigir a la pantalla de reseñas del producto
+      window.location.href = "/product/reviews";
+    });
+
+    imageContainer.appendChild(productImg);
     productDiv.appendChild(imageContainer);
 
     const productTxt = document.createElement("div");

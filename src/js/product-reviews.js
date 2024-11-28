@@ -1,15 +1,5 @@
-// Mock data para pruebas
-const productData = {
-    id: "1",
-    name: "Producto Ejemplo",
-    description: "Este es un producto de ejemplo con toda la información detallada.",
-    price: 49.99,
-    stockQuantity: 15,
-    creationDate: "2024-11-20T15:30:00",
-    sizeName: "Mediano",
-    categoryName: "Electrónica",
-    imageUrl: "https://png.pngtree.com/png-vector/20240326/ourmid/pngtree-cheerful-cartoon-rooster-giving-thumbs-up-sign-png-image_12241786.png",
-};
+// Recuperar el ID del producto desde sessionStorage
+const selectedProductId = sessionStorage.getItem("selectedProductId");
 
 const reviewsData = [
     { id: "1", rating: 5, comment: "Excelente producto.", date: "2024-11-25", userId: 101 },
@@ -19,18 +9,46 @@ const reviewsData = [
     { id: "5", rating: 1, comment: "Mala experiencia.", date: "2024-11-21", userId: 105 },
 ];
 
-// Cargar datos del producto
-function loadProduct() {
-    document.getElementById("product-name").textContent = productData.name;
-    document.getElementById("product-description").textContent = productData.description;
-    document.getElementById("product-price").textContent = `\$${productData.price.toFixed(2)}`;
-    document.getElementById("product-stock").textContent = productData.stockQuantity;
-    document.getElementById("product-creation-date").textContent = new Date(
-        productData.creationDate
-    ).toLocaleDateString();
-    document.getElementById("product-category").textContent = productData.categoryName;
-    document.getElementById("product-size").textContent = productData.sizeName;
-    document.getElementById("product-image").src = productData.imageUrl;
+// Cargar datos del producto desde el backend
+async function loadProduct(productId) {
+    try {
+        // Realizar la solicitud al backend para obtener los datos del producto
+        const response = await fetch(`http://localhost:8080/products/${productId}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+                }
+            },
+        );
+
+        // Verificar si la respuesta es exitosa
+        if (!response.ok) {
+            throw new Error(`Error al cargar el producto: ${response.statusText}`);
+        }
+
+        // Parsear los datos de la respuesta como JSON
+        const productData = await response.json();
+
+        // Asignar los datos al DOM
+        document.getElementById("product-name").textContent = productData.name;
+        document.getElementById("product-description").textContent = productData.description;
+        document.getElementById("product-price").textContent = `\$${productData.price.toFixed(2)}`;
+        document.getElementById("product-stock").textContent = productData.stockQuantity;
+        document.getElementById("product-creation-date").textContent = new Date(
+            productData.creationDate
+        ).toLocaleDateString();
+        document.getElementById("product-category").textContent = productData.categoryName || "N/A";
+        document.getElementById("product-size").textContent = productData.sizeName || "N/A";
+        document.getElementById("product-image").src = productData.imageUrl;
+    } catch (error) {
+        console.error("Error al cargar los datos del producto:", error);
+        // Mostrar un mensaje de error al usuario
+        document.querySelector(".product-content").innerHTML = `
+        <p style="color: red; text-align: center; font-size: 18px;">No se pudo cargar la información del producto.</p>
+    `;
+    }
 }
 
 
@@ -62,6 +80,19 @@ function filterReviews(rating) {
 
 // Inicializar
 document.addEventListener("DOMContentLoaded", () => {
-    loadProduct();
-    loadReviews(reviewsData);
+    if (selectedProductId) {
+        console.log("Cargando producto con ID:", selectedProductId);
+        loadProduct(selectedProductId);
+        loadReviews(reviewsData);
+    } else {
+        console.error("No se encontró ningún producto seleccionado.");
+        document.querySelector(".product-content").innerHTML = `
+            <p style="color: red; text-align: center; font-size: 18px;">No se encontró información del producto.</p>
+        `;
+    }
+});
+
+// Eliminar el ID del producto del sessionStorage al salir de la pantalla
+window.addEventListener("beforeunload", () => {
+    sessionStorage.removeItem("selectedProductId");
 });

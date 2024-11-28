@@ -28,14 +28,3 @@ main {
 .text-primary {
   color: #1d3557 !important;
 }
-
-.btn-custom {
-  color: #1d3557; /* Cambia el color del texto */
-  border: 2px solid #1d3557; /* Opcional: cambia el color del borde */
-}
-
-.btn-custom:hover {
-  background-color: #1d3557; /* Cambia el color de fondo al pasar el mouse */
-  border-color: #1d3557; /* Opcional: cambia el color del borde al pasar el mouse */
-  color: white; /* Opcional: cambia el color del texto al pasar el mouse */
-}
