@@ -66,8 +66,8 @@ async function renderCart() {
 
             const totalRow = document.createElement("tr");
             totalRow.innerHTML = `
-                        <td colspan="6" style="text-align: center; padding: 20px;">
-                            <h3>Total: $${total.toFixed(2)}</h3>
+                        <td colspan="6" style="text-align: center;">
+                            <h3 style="margin: 0;">Total a pagar: $${total.toFixed(2)}</h3>
                         </td>
                         `;
             list.appendChild(totalRow);
