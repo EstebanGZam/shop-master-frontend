@@ -17,6 +17,7 @@ app.get('/auth/register', (req, res) => res.sendFile(path.join(viewsPath, 'regis
 app.get('/purchase', (req, res) => res.sendFile(path.join(viewsPath, 'purchase.html')));
 app.get('/purchase/order-history', (req, res) => res.sendFile(path.join(viewsPath, 'history.html')));
 app.get('/products', (req, res) => res.sendFile(path.join(viewsPath, 'register-product.html')));
+app.get('/product/reviews', (req, res) => res.sendFile(path.join(viewsPath, 'product-reviews.html')));
 
 // Manejar rutas no encontradas
 app.use((req, res) => res.sendFile(path.join(viewsPath, "404.html")));

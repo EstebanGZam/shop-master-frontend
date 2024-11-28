@@ -1,0 +1,41 @@
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1d3557;
+  color: white;
+  text-align: center;
+  height: 15vh;
+}
+
+main {
+  max-height: 88vh;
+}
+
+.review-item {
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+.review-item:last-child {
+  border-bottom: none;
+}
+
+.filter-btns button {
+  margin-right: 10px;
+}
+
+.text-primary {
+  color: #1d3557 !important;
+}
+
+.btn-custom {
+  color: #1d3557; /* Cambia el color del texto */
+  border: 2px solid #1d3557; /* Opcional: cambia el color del borde */
+}
+
+.btn-custom:hover {
+  background-color: #1d3557; /* Cambia el color de fondo al pasar el mouse */
+  border-color: #1d3557; /* Opcional: cambia el color del borde al pasar el mouse */
+  color: white; /* Opcional: cambia el color del texto al pasar el mouse */
+}
