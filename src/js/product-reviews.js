@@ -51,11 +51,36 @@ async function loadProduct(productId) {
     }
 }
 
-// Cargar reseñas desde el backend
-async function loadReviews(productId) {
+// Cargar reseñas
+function loadReviewsInPage(reviews) {
     const reviewsList = document.getElementById("reviews-list");
     reviewsList.innerHTML = ""; // Limpiar reseñas previas
 
+    // Verificar si hay reseñas disponibles
+    if (reviews.length === 0) {
+        reviewsList.innerHTML = `
+                <p style="text-align: center; font-size: 18px; margin-top: 20px;">
+                    No hay reseñas disponibles para este producto.
+                </p>
+            `;
+        return;
+    }
+
+    // Renderizar cada reseña en el DOM
+    reviews.forEach((review) => {
+        const reviewItem = document.createElement("div");
+        reviewItem.classList.add("review-item");
+        reviewItem.innerHTML = `
+                <strong>Calificación:</strong> ${review.rating} Estrellas<br>
+                <strong>Comentario:</strong> ${review.comment || "Sin comentario"}<br>
+                <small><em>${new Date(review.date).toLocaleDateString()}</em></small>
+            `;
+        reviewsList.appendChild(reviewItem);
+    });
+}
+
+// Cargar reseñas desde el backend
+async function loadReviews(productId) {
     try {
         // Realizar la solicitud al backend para obtener las reseñas del producto
         const response = await fetch(`http://localhost:8080/reviews/product/${productId}`, {
@@ -74,27 +99,8 @@ async function loadReviews(productId) {
         // Parsear los datos de la respuesta como JSON
         const reviewsData = await response.json();
 
-        // Verificar si hay reseñas disponibles
-        if (reviewsData.length === 0) {
-            reviewsList.innerHTML = `
-                <p style="text-align: center; font-size: 18px; margin-top: 20px;">
-                    No hay reseñas disponibles para este producto.
-                </p>
-            `;
-            return;
-        }
+        loadReviewsInPage(reviewsData);
 
-        // Renderizar cada reseña en el DOM
-        reviewsData.forEach((review) => {
-            const reviewItem = document.createElement("div");
-            reviewItem.classList.add("review-item");
-            reviewItem.innerHTML = `
-                <strong>Calificación:</strong> ${review.rating} Estrellas<br>
-                <strong>Comentario:</strong> ${review.comment || "Sin comentario"}<br>
-                <small><em>${new Date(review.date).toLocaleDateString()}</em></small>
-            `;
-            reviewsList.appendChild(reviewItem);
-        });
     } catch (error) {
         console.error("Error al cargar las reseñas:", error);
         // Mostrar un mensaje de error al usuario
@@ -106,21 +112,59 @@ async function loadReviews(productId) {
     }
 }
 
+// Filtrar reseñas por puntaje usando el backend
+async function filterReviews(rating) {
+    if (!selectedProductId) {
+        console.error("El ID del producto es obligatorio para filtrar las reseñas.");
+        return;
+    }
 
-// Filtrar reseñas por puntaje
-function filterReviews(rating) {
+    // Calcular el rango de estrellas basado en la calificación
+    let minRating = 0.0;
+    let maxRating = 5.0;
+
     if (rating) {
-        const filteredReviews = reviewsData.filter((review) => review.rating === rating);
-        loadReviews(filteredReviews);
-    } else {
-        loadReviews(reviewsData); // Mostrar todas
+        minRating = rating - 0.5;
+        maxRating = rating === 5 ? 5.0 : rating + 0.4;
+    }
+
+    try {
+        // Hacer la solicitud al backend con los parámetros calculados y el selectedProductId
+        const response = await fetch(
+            `http://localhost:8080/reviews/filter-by-rating?minRating=${minRating}&maxRating=${maxRating}&productId=${selectedProductId}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+                },
+            }
+        );
+
+        // Verificar si la respuesta es exitosa
+        if (!response.ok) {
+            throw new Error(`Error al filtrar las reseñas: ${response.statusText}`);
+        }
+
+        // Parsear la respuesta
+        const filteredReviews = await response.json();
+
+        // Cargar las reseñas filtradas
+        loadReviewsInPage(filteredReviews);
+    } catch (error) {
+        console.error("Error al filtrar reseñas:", error);
+
+        // Mostrar un mensaje de error al usuario
+        const reviewsList = document.getElementById("reviews-list");
+        reviewsList.innerHTML = `
+            <p style="color: red; text-align: center; font-size: 18px;">No se pudieron cargar las reseñas filtradas.</p>
+        `;
     }
 }
 
 // Inicializar
 document.addEventListener("DOMContentLoaded", () => {
     if (selectedProductId) {
-        console.log("Cargando producto con ID:", selectedProductId);
         loadProduct(selectedProductId);
         loadReviews(selectedProductId);
     } else {
