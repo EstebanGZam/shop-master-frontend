@@ -9,6 +9,8 @@ const selectedProductId = sessionStorage.getItem("selectedProductId");
 //     { id: "5", rating: 1, comment: "Mala experiencia.", date: "2024-11-21", userId: 105 },
 // ];
 
+let reviewEventSource;
+
 // Cargar datos del producto desde el backend
 async function loadProduct(productId) {
     try {
@@ -204,6 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (selectedProductId) {
         loadProduct(selectedProductId);
         loadReviews(selectedProductId);
+        initializeSSE(selectedProductId);
     } else {
         console.error("No se encontró ningún producto seleccionado.");
         document.querySelector(".product-content").innerHTML = `
@@ -212,3 +215,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+function initializeSSE(selectedProductId) {
+    if (reviewEventSource) {
+        reviewEventSource.close();
+    }
+  
+    reviewEventSource = new EventSource(`http://localhost:8080/reviews/stream/${selectedProductId}`);
+    
+    reviewEventSource.addEventListener('reviews', (event) => {
+        const reviews = JSON.parse(event.data);
+        loadReviewsInPage(reviews);
+    });
+  
+    reviewEventSource.onerror = (error) => {
+        console.error('SSE Error:', error);
+        if (reviewEventSource.readyState === EventSource.CLOSED) {
+            setTimeout(initializeSSE, 5000);
+        }
+    };
+  }
