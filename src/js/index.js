@@ -17,13 +17,37 @@ const clearFiltersBtn = document.getElementById("clear-filters");
 
 let allProducts = [];
 let currentUserRole = null;
+let productEventSource;
 
 document.addEventListener("DOMContentLoaded", () => {
   // Función para verificar el estado de inicio de sesión
   checkLoginStatus();
   // Cargar los listeners de eventos
   loadEventListeners();
+  // Inicializar SSE
+  initializeSSE();
 });
+
+function initializeSSE() {
+  if (productEventSource) {
+      productEventSource.close();
+  }
+
+  productEventSource = new EventSource('http://localhost:8080/products/stream');
+  
+  productEventSource.addEventListener('products', (event) => {
+      const products = JSON.parse(event.data);
+      allProducts = products;
+      displayProducts(products, currentUserRole);
+  });
+
+  productEventSource.onerror = (error) => {
+      console.error('SSE Error:', error);
+      if (productEventSource.readyState === EventSource.CLOSED) {
+          setTimeout(initializeSSE, 5000);
+      }
+  };
+}
 
 function checkLoginStatus() {
   // Verificar si el usuario ha iniciado sesión
@@ -207,6 +231,9 @@ function loadEventListeners() {
 }
 
 function logout() {
+  if (productEventSource) {
+    productEventSource.close();
+  }
   // Limpia las cookies y el almacenamiento
   // Eliminar indicador de inicio de sesión y rol del usuario
   document.cookie = "token=; path=/; max-age=0; Secure";
